@@ -9,13 +9,13 @@ services:
     ports:
       - 9443:9443
     networks:
-      - portainer_network
+      - frontend
 
 volumes:
   portainer_data:
     name: portainer_data
 
 networks:
-  portainer_network:
-    name: portainer_network
+  frontend:
+    name: frontend
     driver: bridge

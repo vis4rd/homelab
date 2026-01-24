@@ -10,45 +10,17 @@ services:
       - '80:80'   # Public HTTP Port
       - '443:443' # Public HTTPS Port
       - '81:81'   # Admin Web Port
-    # environment:
-      # TZ: "Australia/Brisbane"
-      # Postgres parameters:
-      # DB_POSTGRES_HOST: 'nginx-proxy-manager-postgres'
-      # DB_POSTGRES_PORT: '5432'
-      # DB_POSTGRES_USER: 'npm'
-      # DB_POSTGRES_PASSWORD: 'npmpass'
-      # DB_POSTGRES_NAME: 'npm'
-      # Uncomment this if IPv6 is not enabled on your host
-      # DISABLE_IPV6: 'true'
     volumes:
       # <host-path>:<container-path>
       - data:/data
       - letsencrypt:/etc/letsencrypt
     networks:
       - frontend
-    #   - nginx_proxy_manager_internal_network
-    # depends_on:
-    #   - nginx-proxy-manager-postgres
-
-  # nginx-proxy-manager-postgres:
-  #   image: postgres:17
-  #   container_name: nginx-proxy-manager-postgres
-  #   environment:
-  #     POSTGRES_USER: 'npm'
-  #     POSTGRES_PASSWORD: 'npmpass'
-  #     POSTGRES_DB: 'npm'
-  #   volumes:
-  #     # <host-path>:<container-path>
-  #     - /home/olo/home-server/data/management/nginx-proxy-manager/postgresql:/var/lib/postgresql/data
-  #   networks:
-  #     - nginx_proxy_manager_internal_network
 
 networks:
   frontend:
     name: frontend
     external: true
-  # nginx_proxy_manager_internal_network:
-  #   driver: bridge
 
 volumes:
   data:
