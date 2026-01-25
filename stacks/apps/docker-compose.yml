@@ -4,14 +4,15 @@ services:
     container_name: homepage
     restart: unless-stopped
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: 192.168.1.200:3000,home.internal # gethomepage.dev/installation/#homepage_allowed_hosts
-      # PUID: 1000 # optional, your user id
-      # PGID: 1000 # optional, your group id
+      # https://gethomepage.dev/installation/#homepage_allowed_hosts
+      HOMEPAGE_ALLOWED_HOSTS: 192.168.1.200:3000,home.internal
     ports:
       - 3000:3000
     volumes:
-      - ./stacks/apps/homepage/config:/app/config
+      - ./homepage/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - frontend
 
 networks:
   frontend:

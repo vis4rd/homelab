@@ -31,19 +31,17 @@ services:
       # - 443:443/tcp # HTTPS access to admin dashboard
     environment:
       TZ: Europe/Warsaw
-      # Set a password to access the web interface. Not setting one will result in a random password being assigned
       FTLCONF_webserver_api_password: 'correct horse battery staple'
-      # If using Docker's default `bridge` network setting the dns listening mode should be set to 'ALL'
       FTLCONF_dns_listeningMode: 'ALL'
       FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
       - pihole:/etc/pihole
       # Track configuration files with git
-      - ./stacks/management/pihole/dnsmasq.d:/etc/dnsmasq.d
+      - ./pihole/dnsmasq.d:/etc/dnsmasq.d
     networks:
       - frontend
     # cap_add:
-      # - SYS_NICE # Optional, if Pi-hole should get some more processing time
+      # - SYS_NICE
 
 networks:
   frontend:
