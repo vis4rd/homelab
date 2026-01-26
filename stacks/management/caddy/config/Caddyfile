@@ -1,0 +1,27 @@
+router.internal {
+	reverse_proxy 192.168.1.1
+}
+
+home.internal {
+	reverse_proxy 192.168.1.200:3000
+}
+
+dns.internal {
+	reverse_proxy 192.168.1.200:82
+}
+
+docker.internal {
+	reverse_proxy 192.168.1.200:9443
+}
+
+http://router.internal,
+http://home.internal,
+http://dns.internal,
+http://docker.internal {
+    redir https://{host}{uri} 301
+}
+
+# Return HTTP Status 404 for all undefined subdomains
+http://*.internal {
+    respond "" 404
+}

@@ -1,21 +1,19 @@
 services:
 
-  # NGINX PROXY MANAGER
-  nginx-proxy-manager:
-    image: 'jc21/nginx-proxy-manager:latest'
-    container_name: nginx-proxy-manager
+  # CADDY (REVERSE PROXY)
+  caddy:
+    image: caddy:latest
+    container_name: caddy
     restart: unless-stopped
     ports:
       # <host-port>:<container-port>
-      - 80:80   # Public HTTP Port
-      - 443:443 # Public HTTPS Port
-      - 81:81   # Admin Web Port
-    environment:
-      TZ: Europe/Warsaw
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
     volumes:
-      # <host-path>:<container-path>
-      - npm:/data
-      - letsencrypt:/etc/letsencrypt
+      - ./caddy/config:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
     networks:
       - frontend
   
@@ -28,7 +26,7 @@ services:
       - 53:53/tcp # DNS TCP
       - 53:53/udp # DNS UDP
       - 82:80/tcp # HTTP access to admin dashboard
-      # - 443:443/tcp # HTTPS access to admin dashboard
+      - 443:443/tcp # HTTPS access to admin dashboard
     environment:
       TZ: Europe/Warsaw
       FTLCONF_webserver_api_password: 'correct horse battery staple'
@@ -49,6 +47,6 @@ networks:
     external: true
 
 volumes:
-  npm:
-  letsencrypt:
+  caddy_data:
+  caddy_config:
   pihole:
