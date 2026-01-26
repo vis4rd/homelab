@@ -16,7 +16,7 @@ services:
       - caddy_config:/config
     networks:
       - frontend
-  
+
   # PI-HOLE (ADBLOCK + DNS SERVER)
   pihole:
     image: pihole/pihole:latest
@@ -26,7 +26,7 @@ services:
       - 53:53/tcp # DNS TCP
       - 53:53/udp # DNS UDP
       - 82:80/tcp # HTTP access to admin dashboard
-      - 443:443/tcp # HTTPS access to admin dashboard
+      - 444:443/tcp # HTTPS access to admin dashboard
     environment:
       TZ: Europe/Warsaw
       FTLCONF_webserver_api_password: 'correct horse battery staple'
