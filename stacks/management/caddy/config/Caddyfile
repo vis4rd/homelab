@@ -3,15 +3,15 @@ router.internal {
 }
 
 home.internal {
-	reverse_proxy 192.168.1.200:3000
+	reverse_proxy homepage:3000
 }
 
 dns.internal {
-	reverse_proxy 192.168.1.200:82
+	reverse_proxy pihole:80
 }
 
 docker.internal {
-	reverse_proxy 192.168.1.200:9443
+	reverse_proxy dockge:5001
 }
 
 http://router.internal,
@@ -22,6 +22,6 @@ http://docker.internal {
 }
 
 # Return HTTP Status 404 for all undefined subdomains
-http://*.internal {
-    respond "" 404
+http://*.internal, https://*.internal {
+	respond "" 404
 }
