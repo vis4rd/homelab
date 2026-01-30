@@ -1,27 +1,39 @@
-router.internal {
+{
+	auto_https off
+}
+
+http://modem.homelab.local,
+http://modem.home.arpa {
 	reverse_proxy 192.168.1.1
 }
 
-home.internal {
+http://router.homelab.local,
+http://router.home.arpa {
+	reverse_proxy 192.168.2.1
+}
+
+http://home.homelab.local,
+http://home.home.arpa {
 	reverse_proxy homepage:3000
 }
 
-dns.internal {
+http://dns.homelab.local,
+http://dns.home.arpa {
 	reverse_proxy pihole:80
 }
 
-docker.internal {
+http://docker.homelab.local,
+http://docker.home.arpa {
 	reverse_proxy dockge:5001
 }
 
-http://router.internal,
-http://home.internal,
-http://dns.internal,
-http://docker.internal {
-    redir https://{host}{uri} 301
+http://homeassistant.homelab.local,
+http://homeassistant.home.arpa {
+	reverse_proxy homeassistant:8123
 }
 
 # Return HTTP Status 404 for all undefined subdomains
-http://*.internal, https://*.internal {
-	respond "" 404
+http://*.homelab.local,
+http://*.home.arpa {
+	abort
 }
