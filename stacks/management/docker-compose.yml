@@ -27,9 +27,10 @@ services:
       - 53:53/udp # DNS UDP
       - 82:80/tcp # HTTP access to admin dashboard
       - 444:443/tcp # HTTPS access to admin dashboard
+    env_file:
+      - ./.env
     environment:
       TZ: Europe/Warsaw
-      FTLCONF_webserver_api_password: 'correct horse battery staple'
       FTLCONF_dns_listeningMode: 'ALL'
       FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
