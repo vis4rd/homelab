@@ -12,6 +12,11 @@ services:
       - /srv/storage:/srv # this should point to the storage location
       - filebrowser_data:/database
       - ./filebrowser/config:/config
+      - ./filebrowser/customization:/config/branding # https://filebrowser.org/customization.html
+    environment:
+      # available env variables: https://filebrowser.org/cli/filebrowser.html#options
+      FB_NOAUTH: true
+      FB_USERNAME: File Browser
     networks:
       - frontend
 

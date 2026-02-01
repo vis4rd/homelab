@@ -1,3 +1,4 @@
+// available config settings: https://filebrowser.org/cli/filebrowser.html#options
 {
   "port": 80,
   "baseURL": "",
