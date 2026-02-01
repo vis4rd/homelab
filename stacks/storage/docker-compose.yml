@@ -1,0 +1,24 @@
+services:
+  # FILEBROWSER
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    group_add:
+      - 1001 # storage group
+    ports:
+      - 8080:80
+    volumes:
+      - /srv/storage:/srv # this should point to the storage location
+      - filebrowser_data:/database
+      - ./filebrowser/config:/config
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    name: frontend
+    external: true
+
+volumes:
+  filebrowser_data:

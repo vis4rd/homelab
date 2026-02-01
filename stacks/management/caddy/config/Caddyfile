@@ -32,6 +32,11 @@ http://homeassistant.home.arpa {
 	reverse_proxy homeassistant:8123
 }
 
+http://files.homelab.local,
+http://files.home.arpa {
+	reverse_proxy filebrowser:80
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {
