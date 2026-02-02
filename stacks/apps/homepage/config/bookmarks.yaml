@@ -2,17 +2,42 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/bookmarks
 
-- Developer:
+- Bookmarks:
+    - Proton Mail:
+        - icon: sh-proton-mail-light
+          href: https://mail.proton.me/
     - Github:
-        - abbr: GH
+        - icon: sh-github-light
           href: https://github.com/
-
-- Social:
+    - Youtube:
+        - icon: sh-youtube-light
+          href: https://www.youtube.com/
     - Reddit:
-        - abbr: RE
-          href: https://reddit.com/
+        - icon: sh-reddit-light
+          href: https://www.reddit.com/
 
-- Entertainment:
-    - YouTube:
-        - abbr: YT
-          href: https://youtube.com/
+- Finance:
+    - Zondacrypto:
+        - icon: sh-zondacrypto-light
+          abbr: ZC
+          href: https://zondacrypto.com/
+    - Obligacje Skarbowe:
+        - icon: https://www.obligacjeskarbowe.pl/static/front/treasurybond/img/logo.svg
+          abbr: OS
+          href: https://www.obligacjeskarbowe.pl/
+    - Binance:
+        - icon: si-binance-#ffffff
+          abbr: BN
+          href: https://www.binance.com/en
+    - XTB:
+        - icon: sh-xtb-light
+          abbr: XT
+          href: https://www.xtb.com/pl
+    - Top Kantor:
+        - icon: https://topkantor.pl/kantor/img/logo_small.png
+          abbr: TK
+          href: https://topkantor.pl/
+    - JustETF:
+        - icon: https://www.justetf.com/images/logo/justetf-logo.png?v2
+          abbr: JE
+          href: https://www.justetf.com/en/

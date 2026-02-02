@@ -2,11 +2,23 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/info-widgets/
 
-- resources:
-    cpu: true
-    memory: true
-    disk: /
-
 - search:
     provider: duckduckgo
     target: _blank
+
+- openmeteo:
+    label: Katowice
+    latitude: 50.1552
+    longitude: 19.0125
+    timezone: Europe/Warsaw
+    units: metric
+    cache: 30
+
+- datetime:
+    text_size: 2xl
+    locale: pl-PL
+    timezone: Europe/Warsaw
+    format:
+        timeStyle: medium
+        hourCycle: h23
+        dateStyle: short

@@ -2,6 +2,26 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/settings/
 
-providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
+background:
+  image: /images/tree-flower.jpg
+  blur: xl
+  opacity: 60
+  brightness: 75
+
+theme: dark
+color: neutral
+statusStyle: basic
+
+layout:
+  Bookmarks:
+    iconsOnly: true
+  Finance:
+    iconsOnly: true
+
+  Services:
+    style: row
+    columns: 2
+
+  Calendar:
+    style: row
+    columns: 2

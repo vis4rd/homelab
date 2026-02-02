@@ -11,7 +11,7 @@ services:
     volumes:
       - /srv/storage:/srv # this should point to the storage location
       - filebrowser_data:/database
-      - ./filebrowser/config:/config
+      - filebrowser_config:/config
       - ./filebrowser/customization:/config/branding # https://filebrowser.org/customization.html
     environment:
       # available env variables: https://filebrowser.org/cli/filebrowser.html#options
@@ -27,3 +27,4 @@ networks:
 
 volumes:
   filebrowser_data:
+  filebrowser_config:

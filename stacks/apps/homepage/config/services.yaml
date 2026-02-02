@@ -2,17 +2,77 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
 
-- My First Group:
-    - My First Service:
-        href: http://localhost/
-        description: Homepage is awesome
+- Services:
+    - Homelab:
+        - Homepage:
+            href: http://home.home.arpa
+            icon: sh-homepage
+            server: homelab
+            container: homepage
+        - Dockge:
+            href: http://docker.home.arpa
+            icon: sh-dockge
+            server: homelab
+            container: dockge
+        - Pi-Hole:
+            href: http://dns.home.arpa
+            icon: sh-pi-hole
+            server: homelab
+            container: pihole
+            widget:
+                type: pihole
+                url: http://pihole:80
+                version: 6
+                key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
+                fields: ["queries", "blocked"]
+        - File Browser:
+            href: http://files.home.arpa
+            icon: sh-file-browser
+            server: homelab
+            container: filebrowser
+        - Caddy:
+            icon: sh-caddy
+            server: homelab
+            container: caddy
+            widget:
+                type: caddy
+                url: http://caddy:2019
 
-- My Second Group:
-    - My Second Service:
-        href: http://localhost/
-        description: Homepage is the best
+    - External:
+        - Alfa Males 2025:
+            icon: sh-minecraft
+            widget:
+                type: gamedig
+                serverType: minecraft
+                url: udp://{{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}
+                fields: ["status", "currentPlayers", "ping"]
+        - visard.me:
+            icon: https://visard.me/favicon.ico
+            href: https://visard.me
+            ping: https://visard.me
 
-- My Third Group:
-    - My Third Service:
-        href: http://localhost/
-        description: Homepage is 😎
+- Calendar:
+    - Monthly:
+        widget:
+            type: calendar
+            view: monthly
+            integrations:
+                - type: ical
+                  url: {{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}
+                  name: Google Calendar
+                  color: green
+                  params:
+                    showName: true
+    - Events:
+        widget:
+            type: calendar
+            view: agenda
+            maxEvents: 15
+            previousDays: 14
+            integrations:
+                - type: ical
+                  url: {{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}
+                  name: _
+                  color: green
+                  params:
+                    showName: true
