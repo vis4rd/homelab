@@ -16,6 +16,7 @@ services:
       # HOMEPAGE_VAR_PIHOLE_KEY                       = Pi-Hole widget API key
       # HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL = Calendar widget
       # HOMEPAGE_VAR_MINECRAFT_SERVER_IP              = Minecraft server widget
+      # HOMEPAGE_VAR_JELLYFIN_API_KEY                 = Jellyfin widget API key
     ports:
       - 3000:3000
     volumes:
@@ -25,10 +26,42 @@ services:
     networks:
       - frontend
 
+  # JELLYFIN
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    user: 1000:1000 # instead of root
+    group_add:
+      - 1001 # storage group
+    ports:
+      - 8096:8096/tcp
+      - 7359:7359/udp
+    volumes:
+      - jellyfin_cache:/cache
+      - jellyfin_data:/config
+      - ./jellyfin/config/config:/config/config
+      - ./jellyfin/config/plugins:/config/plugins
+      - ./jellyfin/config/root:/config/root
+      - ./jellyfin/logs:/config/log
+      - type: bind
+        source: /srv/storage
+        target: /media
+      # Optional - extra fonts to be used during transcoding with subtitle burn-in
+      # - type: bind
+      #   source: /path/to/fonts
+      #   target: /usr/local/share/fonts/custom
+      #   read_only: true
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://tv.home.arpa
+    networks:
+      - frontend
+
 networks:
   frontend:
     name: frontend
     external: true
 
 volumes:
-  homepage:
+  jellyfin_cache:
+  jellyfin_data:

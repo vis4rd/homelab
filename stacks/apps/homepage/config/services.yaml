@@ -37,6 +37,21 @@
             widget:
                 type: caddy
                 url: http://caddy:2019
+        - Jellyfin:
+            href: http://tv.home.arpa
+            icon: sh-jellyfin
+            server: homelab
+            container: jellyfin
+            widget:
+                type: jellyfin
+                url: http://jellyfin:8096
+                key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
+                enableBlocks: true
+                enableNowPlaying: true
+                enableUser: true
+                enableMediaControl: false
+                showEpisodeNumber: true
+                expandOneStreamToTwoRows: false
 
     - External:
         - Alfa Males 2025:

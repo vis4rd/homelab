@@ -38,6 +38,11 @@ http://files.home.arpa {
 	reverse_proxy filebrowser:80
 }
 
+http://tv.homelab.local,
+http://tv.home.arpa {
+	reverse_proxy jellyfin:8096
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {

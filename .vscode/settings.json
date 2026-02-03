@@ -1,5 +1,8 @@
 {
     "editor.rulers": [
         100
-    ]
+    ],
+    "files.associations": {
+        "Caddyfile": "log"
+    }
 }
