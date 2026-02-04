@@ -9,11 +9,11 @@
             icon: sh-homepage
             server: homelab
             container: homepage
-        - Dockge:
+        - Dockhand:
             href: http://docker.home.arpa
-            icon: sh-dockge
+            icon: sh-dockhand
             server: homelab
-            container: dockge
+            container: dockhand
         - Pi-Hole:
             href: http://dns.home.arpa
             icon: sh-pi-hole

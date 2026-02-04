@@ -25,7 +25,7 @@ http://dns.home.arpa {
 
 http://docker.homelab.local,
 http://docker.home.arpa {
-	reverse_proxy dockge:5001
+	reverse_proxy dockhand:3000
 }
 
 http://homeassistant.homelab.local,

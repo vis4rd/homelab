@@ -5,7 +5,7 @@
 ## Services
 
 > [!NOTE]
-> Dockge service is an exception due to being a dependency for all other services. Therefore it is
+> Dockhand service is an exception due to being a dependency for all other services. Therefore it is
 > stored in the root of this repository.
 
 ### Pi-hole

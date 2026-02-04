@@ -15,6 +15,9 @@
     - Reddit:
         - icon: sh-reddit-light
           href: https://www.reddit.com/
+    - Homepage Docs:
+        - icon: sh-homepage-light
+          href: https://gethomepage.dev/configs/
 
 - Finance:
     - Zondacrypto:

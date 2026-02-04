@@ -1,25 +1,19 @@
 services:
-  dockge:
-    image: cmcooper1980/dockge
-    container_name: dockge
+  dockhand:
+    image: fnsys/dockhand:latest
+    container_name: dockhand
     restart: always
     ports:
-      - 9443:5001
+      - 9443:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - dockge:/app/data
-      # Stacks Directory
-      # ⚠️ READ IT CAREFULLY. If you did it wrong, your data could end up writing into a WRONG PATH.
-      # ⚠️ 1. FULL path only. No relative path (MUST)
-      # ⚠️ 2. Left Stacks Path === Right Stacks Path (MUST)
-      - /home/homelab/homelab/stacks:/home/homelab/homelab/stacks
-    environment:
-      - DOCKGE_STACKS_DIR=/home/homelab/homelab/stacks
+      - dockhand_data:/app/data
+      - /home/homelab/homelab:/home/homelab/homelab
     networks:
       - frontend
 
 volumes:
-  dockge:
+  dockhand_data:
 
 networks:
   frontend:
