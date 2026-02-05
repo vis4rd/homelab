@@ -3,6 +3,6 @@
         100
     ],
     "files.associations": {
-        "Caddyfile": "log"
+        "**/Caddyfile": "log"
     }
 }

@@ -57,11 +57,73 @@ services:
     networks:
       - frontend
 
+  # STATISTICS FOR STRAVA
+  statistics_for_strava:
+    image: robiningelbrecht/strava-statistics:latest
+    container_name: statistics_for_strava
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      TZ: Europe/Warsaw
+      PUID: 1000
+      PGID: 1000
+      # PROXY_HOST: strava.home.arpa # (maybe not necessary if using my own caddy reverse proxy)
+      # PROXY_PORT: 8082
+
+      # Required fields in './.env':
+      # STRAVA_CLIENT_ID     = Strava API client ID
+      # STRAVA_CLIENT_SECRET = Strava API client secret
+      # STRAVA_REFRESH_TOKEN = Statistics for Strava refresh token
+    ports:
+      - 8082:8080
+    volumes:
+      - ./statistics_for_strava/config:/var/www/config/app
+      - sfs_build:/var/www/build
+      - sfs_db:/var/www/storage/database
+      - sfs_files:/var/www/storage/files
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2019/metrics"]
+      start_period: 60s
+    networks:
+      - statistics_for_strava_net
+      - frontend
+
+  statistics_for_strava_daemon:
+    image: robiningelbrecht/strava-statistics:latest
+    container_name: statistics_for_strava_daemon
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      TZ: Europe/Warsaw
+      PUID: 1000
+      PGID: 1000
+      # PROXY_HOST: strava.home.arpa # (maybe not necessary if using my own caddy reverse proxy)
+      # PROXY_PORT: 8082
+
+      # Required fields in './.env':
+      # STRAVA_CLIENT_ID     = Strava API client ID
+      # STRAVA_CLIENT_SECRET = Strava API client secret
+      # STRAVA_REFRESH_TOKEN = Statistics for Strava refresh token
+    volumes_from:
+      - statistics_for_strava
+    depends_on:
+      - statistics_for_strava
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "test -f /var/www/storage/database/strava.db && echo 'ok' || exit 1" ]
+      start_period: 5s
+    entrypoint: ['bin/console', 'app:daemon:run']
+    networks:
+      - statistics_for_strava_net
+
 networks:
   frontend:
     name: frontend
     external: true
+  statistics_for_strava_net:
 
 volumes:
   jellyfin_cache:
   jellyfin_data:
+  sfs_build:
+  sfs_db:
+  sfs_files:

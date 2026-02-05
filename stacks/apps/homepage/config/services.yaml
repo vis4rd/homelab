@@ -52,6 +52,11 @@
                 enableMediaControl: false
                 showEpisodeNumber: true
                 expandOneStreamToTwoRows: false
+        - Statistics for Strava:
+            href: http://strava.home.arpa
+            icon: sh-strava
+            server: homelab
+            container: statistics_for_strava
 
     - External:
         - Alfa Males 2025:

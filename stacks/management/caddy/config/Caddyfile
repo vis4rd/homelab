@@ -43,6 +43,11 @@ http://tv.home.arpa {
 	reverse_proxy jellyfin:8096
 }
 
+http://strava.homelab.local,
+http://strava.home.arpa {
+	reverse_proxy statistics_for_strava:8080
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {
