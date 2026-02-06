@@ -17,6 +17,7 @@ services:
       # HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL = Calendar widget
       # HOMEPAGE_VAR_MINECRAFT_SERVER_IP              = Minecraft server widget
       # HOMEPAGE_VAR_JELLYFIN_API_KEY                 = Jellyfin widget API key
+      # HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN           = Tailscale widget access token
     ports:
       - 3000:3000
     volumes:
@@ -56,6 +57,7 @@ services:
       - JELLYFIN_PublishedServerUrl=http://tv.home.arpa
     networks:
       - frontend
+      - tailscale_net
 
   # STATISTICS FOR STRAVA
   statistics_for_strava:
@@ -118,6 +120,9 @@ services:
 networks:
   frontend:
     name: frontend
+    external: true
+  tailscale_net:
+    name: tailscale_exposed
     external: true
   statistics_for_strava_net:
 

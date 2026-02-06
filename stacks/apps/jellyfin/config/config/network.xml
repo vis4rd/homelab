@@ -3,8 +3,6 @@
   <BaseUrl />
   <EnableHttps>false</EnableHttps>
   <RequireHttps>false</RequireHttps>
-  <CertificatePath />
-  <CertificatePassword />
   <InternalHttpPort>8096</InternalHttpPort>
   <InternalHttpsPort>8920</InternalHttpsPort>
   <PublicHttpPort>8096</PublicHttpPort>
@@ -23,5 +21,5 @@
   <EnablePublishedServerUriByRequest>false</EnablePublishedServerUriByRequest>
   <PublishedServerUriBySubnet />
   <RemoteIPFilter />
-  <IsRemoteIPFilterBlacklist>false</IsRemoteIPFilterBlacklist>
+  <IsRemoteIPFilterBlacklist>true</IsRemoteIPFilterBlacklist>
 </NetworkConfiguration>

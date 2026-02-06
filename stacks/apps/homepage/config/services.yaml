@@ -57,6 +57,14 @@
             icon: sh-strava
             server: homelab
             container: statistics_for_strava
+        - Tailscale:
+            icon: sh-tailscale
+            server: homelab
+            container: tailscale
+            widget:
+                type: tailscale
+                key: {{HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN}}
+                deviceid: {{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}
 
     - External:
         - Alfa Males 2025:

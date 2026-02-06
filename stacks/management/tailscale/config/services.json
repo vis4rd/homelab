@@ -1,0 +1,20 @@
+{
+  "Services": {
+    "svc:tv": {
+      "TCP": {
+        "80": {
+          "HTTP": true
+        }
+      },
+      "Web": {
+        "tv.mogera-yo.ts.net:80": {
+          "Handlers": {
+            "/": {
+              "Proxy": "http://jellyfin:8096"
+            }
+          }
+        }
+      }
+    }
+  }
+}

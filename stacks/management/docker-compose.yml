@@ -42,12 +42,53 @@ services:
     # cap_add:
       # - SYS_NICE
 
+  # TAILSCALE (EXTERNAL ACCESS)
+  # docs:
+  # - https://tailscale.com/docs/features/tailscale-services#step-3-create-a-service-proxy
+  # - https://tailscale.com/docs/reference/tailscale-services-configuration-file
+  # - https://tailscale.com/docs/features/containers/docker
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_EXTRA_ARGS: '--advertise-tags=tag:homelab'
+      TS_SERVE_CONFIG: /etc/tailscale/services.json
+      # TS_TAILSCALED_EXTRA_ARGS: '--config=/etc/tailscale/daemon.json' # does not work
+
+      # Required fields in './.env':
+      # TS_CLIENT_ID     = Generated as credential in Tailscale admin console
+      # TS_CLIENT_SECRET = Generated as credential in Tailscale admin console
+    volumes:
+      - tailscale_data:/var/lib/tailscale
+      - ./tailscale/config:/etc/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    entrypoint: /bin/sh -c "
+      /usr/local/bin/containerboot &
+      sleep 5;
+      tailscale serve advertise svc:tv;
+      wait"
+    # post_start:
+    #   - command: sleep 15 && tailscale serve advertise svc:tv # does not work
+        # user: root
+    networks:
+      - tailscale_net
+
 networks:
   frontend:
     name: frontend
     external: true
+  tailscale_net:
+    name: tailscale_exposed
 
 volumes:
   caddy_data:
   caddy_config:
   pihole:
+  tailscale_data:
