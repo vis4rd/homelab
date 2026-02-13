@@ -2,6 +2,6 @@
     "version": "alpha0",
     "locked": false,
     "advertiseServices": [
-        "svc:tv"
+        "svc:tv", "svc:requests"
     ]
 }

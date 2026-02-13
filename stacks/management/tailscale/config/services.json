@@ -15,6 +15,22 @@
           }
         }
       }
+    },
+    "svc:requests": {
+      "TCP": {
+        "80": {
+          "HTTP": true
+        }
+      },
+      "Web": {
+        "requests.mogera-yo.ts.net:80": {
+          "Handlers": {
+            "/": {
+              "Proxy": "http://jellyseerr:5055"
+            }
+          }
+        }
+      }
     }
   }
 }

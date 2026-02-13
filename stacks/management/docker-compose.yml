@@ -73,6 +73,7 @@ services:
       /usr/local/bin/containerboot &
       sleep 5;
       tailscale serve advertise svc:tv;
+      tailscale serve advertise svc:requests;
       wait"
     # post_start:
     #   - command: sleep 15 && tailscale serve advertise svc:tv # does not work

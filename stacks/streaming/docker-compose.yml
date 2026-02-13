@@ -64,9 +64,9 @@ services:
       - radarr_config:/config
       - /srv/storage/Streaming:/data
     environment:
-      - PUID=1000 # Upewnij się, że ID zgadza się z Twoim użytkownikiem
-      - PGID=1000
-      - TZ=Europe/Warsaw
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Warsaw
     networks:
       - frontend
       - streaming_net
@@ -81,11 +81,36 @@ services:
     volumes:
       - prowlarr_config:/config
     environment:
-      - PUID=1000
-      - PGID=1000
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Warsaw
     networks:
       - frontend
       - streaming_net
+
+  # JELLYSEERR (request manager)
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    restart: unless-stopped
+    ports:
+      - 5055:5055
+    volumes:
+      - jellyseerr_config:/app/config
+      - ./jellyseerr/logs:/app/config/logs
+    environment:
+      TZ: Europe/Warsaw
+      LOG_LEVEL: debug
+    networks:
+      - frontend
+      - tailscale_net
+      - streaming_net
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
 
   # SABNZBD (usenet downloader)
   sabnzbd:
@@ -100,8 +125,8 @@ services:
       - sabnzbd_config:/config
       - /srv/storage/Streaming/Downloads:/data/downloads
     environment:
-      - PUID=1000
-      - PGID=1000
+      PUID: 1000
+      PGID: 1000
     networks:
       - frontend
       - streaming_net
@@ -127,5 +152,7 @@ volumes:
     name: radarr_config
   prowlarr_config:
     name: prowlarr_config
+  jellyseerr_config:
+    name: jellyseerr_config
   sabnzbd_config:
     name: sabnzbd_config
