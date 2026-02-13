@@ -27,38 +27,6 @@ services:
     networks:
       - frontend
 
-  # JELLYFIN
-  jellyfin:
-    image: jellyfin/jellyfin:latest
-    container_name: jellyfin
-    restart: unless-stopped
-    user: 1000:1000 # instead of root
-    group_add:
-      - 1001 # storage group
-    ports:
-      - 8096:8096/tcp
-      - 7359:7359/udp
-    volumes:
-      - jellyfin_cache:/cache
-      - jellyfin_data:/config
-      - ./jellyfin/config/config:/config/config
-      - ./jellyfin/config/plugins:/config/plugins
-      - ./jellyfin/config/root:/config/root
-      - ./jellyfin/logs:/config/log
-      - type: bind
-        source: /srv/storage
-        target: /media
-      # Optional - extra fonts to be used during transcoding with subtitle burn-in
-      # - type: bind
-      #   source: /path/to/fonts
-      #   target: /usr/local/share/fonts/custom
-      #   read_only: true
-    environment:
-      - JELLYFIN_PublishedServerUrl=http://tv.home.arpa
-    networks:
-      - frontend
-      - tailscale_net
-
   # STATISTICS FOR STRAVA
   statistics_for_strava:
     image: robiningelbrecht/strava-statistics:latest
@@ -121,14 +89,9 @@ networks:
   frontend:
     name: frontend
     external: true
-  tailscale_net:
-    name: tailscale_exposed
-    external: true
   statistics_for_strava_net:
 
 volumes:
-  jellyfin_cache:
-  jellyfin_data:
   sfs_build:
   sfs_db:
   sfs_files:
