@@ -71,6 +71,25 @@ services:
       - frontend
       - streaming_net
 
+  # SABNZBD (usenet downloader)
+  sabnzbd:
+    image: ghcr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    restart: unless-stopped
+    group_add:
+      - 1001 # storage group
+    ports:
+      - 8081:8080
+    volumes:
+      - sabnzbd_config:/config
+      - /srv/storage/Streaming/Downloads:/data/downloads
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - frontend
+      - streaming_net
+
 networks:
   frontend:
     name: frontend
@@ -90,3 +109,5 @@ volumes:
     name: sonarr_config
   radarr_config:
     name: radarr_config
+  sabnzbd_config:
+    name: sabnzbd_config

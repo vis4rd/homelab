@@ -53,6 +53,13 @@ http://radarr.home.arpa {
 	reverse_proxy radarr:7878
 }
 
+http://sabnzbd.homelab.local,
+http://sabnzbd.home.arpa,
+http://usenet.homelab.local,
+http://usenet.home.arpa  {
+	reverse_proxy sabnzbd:8080
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {
