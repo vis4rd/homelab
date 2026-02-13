@@ -28,11 +28,6 @@ http://docker.home.arpa {
 	reverse_proxy dockhand:3000
 }
 
-http://homeassistant.homelab.local,
-http://homeassistant.home.arpa {
-	reverse_proxy homeassistant:8123
-}
-
 http://files.homelab.local,
 http://files.home.arpa {
 	reverse_proxy filebrowser:80

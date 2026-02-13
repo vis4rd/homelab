@@ -20,11 +20,11 @@
             server: homelab
             container: pihole
             widget:
-                type: pihole
-                url: http://pihole:80
-                version: 6
-                key: {{HOMEPAGE_VAR_PIHOLE_KEY}}
-                fields: ["queries", "blocked"]
+              type: pihole
+              url: http://pihole:80
+              version: 6
+              key: "{{HOMEPAGE_VAR_PIHOLE_KEY}}"
+              fields: ["queries", "blocked"]
         - File Browser:
             href: http://files.home.arpa
             icon: sh-file-browser
@@ -35,23 +35,23 @@
             server: homelab
             container: caddy
             widget:
-                type: caddy
-                url: http://caddy:2019
+              type: caddy
+              url: http://caddy:2019
         - Jellyfin:
             href: http://tv.home.arpa
             icon: sh-jellyfin
             server: homelab
             container: jellyfin
             widget:
-                type: jellyfin
-                url: http://jellyfin:8096
-                key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
-                enableBlocks: true
-                enableNowPlaying: true
-                enableUser: true
-                enableMediaControl: false
-                showEpisodeNumber: true
-                expandOneStreamToTwoRows: false
+              type: jellyfin
+              url: http://jellyfin:8096
+              key: "{{HOMEPAGE_VAR_JELLYFIN_API_KEY}}"
+              enableBlocks: true
+              enableNowPlaying: true
+              enableUser: true
+              enableMediaControl: false
+              showEpisodeNumber: true
+              expandOneStreamToTwoRows: false
         - Statistics for Strava:
             href: http://strava.home.arpa
             icon: sh-strava
@@ -62,45 +62,43 @@
             server: homelab
             container: tailscale
             widget:
-                type: tailscale
-                key: {{HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN}}
-                deviceid: {{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}
+              type: tailscale
+              key: "{{HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN}}"
+              deviceid: "{{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}"
 
-    - External:
+    - Outpost:
         - Alfa Males 2025:
+            description: "Server hosted on Oracle Cloud with IP: {{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}."
             icon: sh-minecraft
             widget:
-                type: gamedig
-                serverType: minecraft
-                url: udp://{{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}
-                fields: ["status", "currentPlayers", "ping"]
+              type: gamedig
+              serverType: minecraft
+              url: udp://{{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}
+              fields: ["status", "currentPlayers", "ping"]
+
+    - External:
         - visard.me:
+            description: "Personal portfolio and blog website."
             icon: https://visard.me/favicon.ico
             href: https://visard.me
             ping: https://visard.me
 
 - Calendar:
-    - Monthly:
-        widget:
-            type: calendar
+    - Calendar:
+        widgets:
+          - type: calendar
             view: monthly
+            showTime: true
             integrations:
-                - type: ical
-                  url: {{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}
-                  name: Google Calendar
-                  color: green
-                  params:
-                    showName: true
-    - Events:
-        widget:
-            type: calendar
+              - type: ical
+                name: Google Calendar
+                url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
+                color: green
+          - type: calendar
             view: agenda
             maxEvents: 15
-            previousDays: 14
             integrations:
-                - type: ical
-                  url: {{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}
-                  name: _
-                  color: green
-                  params:
-                    showName: true
+              - type: ical
+                name: Google Calendar
+                url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
+                color: green

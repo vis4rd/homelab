@@ -15,10 +15,10 @@
     cache: 30
 
 - datetime:
-    text_size: 2xl
+    text_size: xl
     locale: pl-PL
     timezone: Europe/Warsaw
     format:
-        timeStyle: medium
-        hourCycle: h23
-        dateStyle: short
+      timeStyle: medium
+      hourCycle: h23
+      dateStyle: short

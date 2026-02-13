@@ -4,24 +4,49 @@
 
 background:
   image: /images/tree-flower.jpg
-  blur: xl
-  opacity: 60
-  brightness: 75
 
 theme: dark
 color: neutral
 statusStyle: basic
+cardBlur: md
+headerStyle: boxedWidgets
+disableIndexing: true
 
 layout:
-  Bookmarks:
-    iconsOnly: true
-  Finance:
-    iconsOnly: true
+  # Daily tab
+  Calendar:
+    tab: Daily
+    header: false
 
-  Services:
+  Bookmarks:
+    tab: Daily
+    header: false
+
+  Streaming:
+    tab: Daily
+    style: row
+
+  Finance:
+    tab: Daily
     style: row
     columns: 2
 
-  Calendar:
+  # Services tab
+  Services:
+    tab: Services
+    style: row
+    columns: 1
+    header: false
+
+    Homelab:
+      style: row
+      columns: 2
+      useEqualHeights: true
+
+    Outpost:
+    External:
+
+  Documentation:
+    tab: Services
     style: row
     columns: 2
