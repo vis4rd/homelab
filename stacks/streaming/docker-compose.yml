@@ -1,6 +1,6 @@
 services:
 
-  # JELLYFIN
+  # JELLYFIN (media player)
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
@@ -31,10 +31,11 @@ services:
       - tailscale_net
       - streaming_net
 
-  # SONARR
+  # SONARR (tv series manager)
   sonarr:
     image: ghcr.io/linuxserver/sonarr:latest
     container_name: sonarr
+    restart: unless-stopped
     group_add:
       - 1001 # storage group
     ports:
@@ -46,7 +47,26 @@ services:
       PUID: 1000
       PGID: 1000
       TZ: Europe/Warsaw
+    networks:
+      - frontend
+      - streaming_net
+
+  # RADARR (movie manager)
+  radarr:
+    image: ghcr.io/linuxserver/radarr:latest
+    container_name: radarr
     restart: unless-stopped
+    group_add:
+      - 1001 # storage group
+    ports:
+      - 7878:7878
+    volumes:
+      - radarr_config:/config
+      - /srv/storage/Streaming:/data
+    environment:
+      - PUID=1000 # Upewnij się, że ID zgadza się z Twoim użytkownikiem
+      - PGID=1000
+      - TZ=Europe/Warsaw
     networks:
       - frontend
       - streaming_net
@@ -68,3 +88,5 @@ volumes:
     name: jellyfin_data
   sonarr_config:
     name: sonarr_config
+  radarr_config:
+    name: radarr_config
