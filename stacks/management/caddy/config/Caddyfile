@@ -43,6 +43,11 @@ http://strava.home.arpa {
 	reverse_proxy statistics_for_strava:8080
 }
 
+http://sonarr.homelab.local,
+http://sonarr.home.arpa {
+	reverse_proxy sonarr:8989
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {

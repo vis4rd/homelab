@@ -1,4 +1,5 @@
 services:
+
   # JELLYFIN
   jellyfin:
     image: jellyfin/jellyfin:latest
@@ -18,7 +19,7 @@ services:
       - ./jellyfin/config/root:/config/root
       - ./jellyfin/logs:/config/log
       - type: bind
-        source: /srv/storage
+        source: /srv/storage/Streaming/Media
         target: /media
       # Optional - extra fonts to be used during transcoding with subtitle burn-in
       # - type: bind
@@ -28,6 +29,27 @@ services:
     networks:
       - frontend
       - tailscale_net
+      - streaming_net
+
+  # SONARR
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    group_add:
+      - 1001 # storage group
+    ports:
+      - 8989:8989
+    volumes:
+      - sonarr_config:/config
+      - /srv/storage/Streaming:/data
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Warsaw
+    restart: unless-stopped
+    networks:
+      - frontend
+      - streaming_net
 
 networks:
   frontend:
@@ -36,9 +58,13 @@ networks:
   tailscale_net:
     name: tailscale_exposed
     external: true
+  streaming_net:
+    name: streaming_net
 
 volumes:
   jellyfin_cache:
     name: jellyfin_cache
   jellyfin_data:
     name: jellyfin_data
+  sonarr_config:
+    name: sonarr_config
