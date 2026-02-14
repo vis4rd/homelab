@@ -97,3 +97,18 @@
     - Tailscale:
         - icon: sh-tailscale-light
           href: https://tailscale.com/docs
+    - Sonarr:
+        - icon: sh-sonarr-light
+          href: https://github.com/linuxserver/docker-sonarr
+    - Radarr:
+        - icon: sh-radarr-light
+          href: https://github.com/linuxserver/docker-radarr
+    - Prowlarr:
+        - icon: sh-prowlarr-light
+          href: https://github.com/linuxserver/docker-prowlarr
+    - Jellyseerr:
+        - icon: sh-jellyseerr-light
+          href: https://docs.seerr.dev/
+    - Sabnzbd:
+        - icon: sh-sabnzbd-light
+          href: https://sabnzbd.org/wiki/

@@ -2,6 +2,10 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/info-widgets/
 
+- resources:
+    disk: /app/config
+    uptime: true
+
 - search:
     provider: duckduckgo
     target: _blank

@@ -18,6 +18,11 @@ services:
       # HOMEPAGE_VAR_MINECRAFT_SERVER_IP              = Minecraft server widget
       # HOMEPAGE_VAR_JELLYFIN_API_KEY                 = Jellyfin widget API key
       # HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN           = Tailscale widget access token
+      # HOMEPAGE_VAR_SONARR_API_KEY                   = Sonarr widget API key
+      # HOMEPAGE_VAR_RADARR_API_KEY                   = Radarr widget API key
+      # HOMEPAGE_VAR_PROWLARR_API_KEY                 = Prowlarr widget API key
+      # HOMEPAGE_VAR_JELLYSEERR_API_KEY               = Jellyseerr widget API key
+      # HOMEPAGE_VAR_SABNZBD_API_KEY                  = Sabnzbd widget API key
     ports:
       - 3000:3000
     volumes:

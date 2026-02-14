@@ -8,7 +8,7 @@ background:
 theme: dark
 color: neutral
 statusStyle: basic
-cardBlur: md
+cardBlur: xl
 headerStyle: boxedWidgets
 disableIndexing: true
 

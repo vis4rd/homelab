@@ -65,6 +65,53 @@
               type: tailscale
               key: "{{HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN}}"
               deviceid: "{{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}"
+        - Sonarr:
+            href: http://sonarr.home.arpa
+            icon: sh-sonarr
+            server: homelab
+            container: sonarr
+            widget:
+              type: sonarr
+              url: http://sonarr:8989
+              key: "{{HOMEPAGE_VAR_SONARR_API_KEY}}"
+              enableQueue: true # optional, defaults to false
+        - Radarr:
+            href: http://radarr.home.arpa
+            icon: sh-radarr
+            server: homelab
+            container: radarr
+            widget:
+              type: radarr
+              url: http://radarr:7878
+              key: "{{HOMEPAGE_VAR_RADARR_API_KEY}}"
+              enableQueue: true # optional, defaults to false
+        - Prowlarr:
+            href: http://prowlarr.home.arpa
+            icon: sh-prowlarr
+            server: homelab
+            container: prowlarr
+            widget:
+              type: prowlarr
+              url: http://prowlarr:9696
+              key: "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}"
+        - Jellyseerr:
+            href: http://jellyseerr.home.arpa
+            icon: sh-jellyseerr
+            server: homelab
+            container: jellyseerr
+            widget:
+              type: jellyseerr
+              url: http://jellyseerr:5055
+              key: "{{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}"
+        - Sabnzbd:
+            href: http://sabnzbd.home.arpa
+            icon: sh-sabnzbd
+            server: homelab
+            container: sabnzbd
+            widget:
+              type: sabnzbd
+              url: http://sabnzbd:8080
+              key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
 
     - Outpost:
         - Alfa Males 2025:
