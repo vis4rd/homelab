@@ -10,7 +10,7 @@
   <ThrottleDelaySeconds>180</ThrottleDelaySeconds>
   <EnableSegmentDeletion>false</EnableSegmentDeletion>
   <SegmentKeepSeconds>720</SegmentKeepSeconds>
-  <HardwareAccelerationType>none</HardwareAccelerationType>
+  <HardwareAccelerationType>nvenc</HardwareAccelerationType>
   <EncoderAppPathDisplay>/usr/lib/jellyfin-ffmpeg/ffmpeg</EncoderAppPathDisplay>
   <VaapiDevice>/dev/dri/renderD128</VaapiDevice>
   <QsvDevice />
@@ -45,6 +45,8 @@
   <HardwareDecodingCodecs>
     <string>h264</string>
     <string>vc1</string>
+    <string>hevc</string>
+    <string>av1</string>
   </HardwareDecodingCodecs>
   <AllowOnDemandMetadataBasedKeyframeExtractionForExtensions>
     <string>mkv</string>

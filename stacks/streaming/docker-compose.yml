@@ -26,10 +26,20 @@ services:
       #   source: /path/to/fonts
       #   target: /usr/local/share/fonts/custom
       #   read_only: true
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
     networks:
       - frontend
       - tailscale_net
       - streaming_net
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu, video]
 
   # SONARR (tv series manager)
   sonarr:
