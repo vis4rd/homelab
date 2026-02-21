@@ -175,7 +175,7 @@
     </CastReceiverApplication>
   </CastReceiverApplications>
   <TrickplayOptions>
-    <EnableHwAcceleration>false</EnableHwAcceleration>
+    <EnableHwAcceleration>true</EnableHwAcceleration>
     <EnableHwEncoding>false</EnableHwEncoding>
     <EnableKeyFrameOnlyExtraction>false</EnableKeyFrameOnlyExtraction>
     <ScanBehavior>NonBlocking</ScanBehavior>
