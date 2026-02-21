@@ -3,12 +3,12 @@
 # https://gethomepage.dev/configs/settings/
 
 background:
-  image: /images/tree-flower.jpg
+  image: /images/lakehouse.jpg
 
 theme: dark
 color: neutral
 statusStyle: basic
-cardBlur: xl
+cardBlur: md
 headerStyle: boxedWidgets
 disableIndexing: true
 
