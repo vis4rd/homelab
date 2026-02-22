@@ -23,6 +23,8 @@ services:
       # HOMEPAGE_VAR_PROWLARR_API_KEY                 = Prowlarr widget API key
       # HOMEPAGE_VAR_JELLYSEERR_API_KEY               = Jellyseerr widget API key
       # HOMEPAGE_VAR_SABNZBD_API_KEY                  = Sabnzbd widget API key
+      # HOMEPAGE_VAR_DOCKHAND_USERNAME                = Dockhand username
+      # HOMEPAGE_VAR_DOCKHAND_PASSWORD                = Dockhand password
     ports:
       - 3000:3000
     volumes:
