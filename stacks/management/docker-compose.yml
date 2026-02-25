@@ -58,8 +58,7 @@ services:
       TS_HOSTNAME: homelab
       TS_STATE_DIR: /var/lib/tailscale
       TS_EXTRA_ARGS: '--advertise-tags=tag:homelab'
-      TS_SERVE_CONFIG: /etc/tailscale/services.json
-      # TS_TAILSCALED_EXTRA_ARGS: '--config=/etc/tailscale/daemon.json' # does not work
+      # TS_SERVE_CONFIG: /etc/tailscale/services.json
 
       # Required fields in './.env':
       # TS_CLIENT_ID     = Generated as credential in Tailscale admin console
@@ -72,14 +71,20 @@ services:
     cap_add:
       - NET_ADMIN
     entrypoint: /bin/sh -c "
-      /usr/local/bin/containerboot &
-      sleep 5;
-      tailscale serve advertise svc:tv;
-      tailscale serve advertise svc:requests;
-      wait"
-    # post_start:
-    #   - command: sleep 15 && tailscale serve advertise svc:tv # does not work
-        # user: root
+      (
+        sleep 5;
+        tailscale serve set-config --all /etc/tailscale/services.json;
+      ) &
+      exec /usr/local/bin/containerboot"
+    # Workaround for services not being advertised on startup,
+    # see: https://github.com/tailscale/tailscale/issues/18255.
+
+    # TS_SERVE_CONFIG does not support the new serve config format.
+    # This might be fixed in the future,
+    # see: https://github.com/tailscale/tailscale/pull/18527.
+
+    # `post_start` script cannot be used here, because it is a compose
+    # feature and on host reboots is not considered by docker daemon.
     networks:
       - tailscale_net
 

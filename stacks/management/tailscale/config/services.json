@@ -1,56 +1,17 @@
 {
-  "Services": {
-    "svc:tv": {
-      "TCP": {
-        "80": {
-          "HTTP": true
-        },
-        "443": {
-          "HTTPS": true
-        }
-      },
-      "Web": {
-        "tv.mogera-yo.ts.net:80": {
-          "Handlers": {
-            "/": {
-              "Proxy": "http://jellyfin:8096"
+    "version": "0.0.1",
+    "services": {
+        "svc:tv": {
+            "advertised": true,
+            "endpoints": {
+                "tcp:443": "http://jellyfin:8096"
             }
-          }
         },
-        "tv.mogera-yo.ts.net:443": {
-          "Handlers": {
-            "/": {
-              "Proxy": "http://jellyfin:8096"
+        "svc:requests": {
+            "advertised": true,
+            "endpoints": {
+                "tcp:443": "http://jellyseerr:5055"
             }
-          }
         }
-      }
-    },
-    "svc:requests": {
-      "TCP": {
-        "80": {
-          "HTTP": true
-        },
-        "443": {
-          "HTTPS": true
-        }
-      },
-      "Web": {
-        "requests.mogera-yo.ts.net:80": {
-          "Handlers": {
-            "/": {
-              "Proxy": "http://jellyseerr:5055"
-            }
-          }
-        },
-        "requests.mogera-yo.ts.net:443": {
-          "Handlers": {
-            "/": {
-              "Proxy": "http://jellyseerr:5055"
-            }
-          }
-        }
-      }
     }
-  }
 }

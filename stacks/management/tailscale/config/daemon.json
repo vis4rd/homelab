@@ -1,7 +1,0 @@
-{
-    "version": "alpha0",
-    "locked": false,
-    "advertiseServices": [
-        "svc:tv", "svc:requests"
-    ]
-}
