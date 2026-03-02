@@ -1,6 +1,12 @@
 {
-	auto_https off
+	auto_https disable_redirects
 	admin 0.0.0.0:2019
+
+    log {
+        output file /etc/caddy/logs/latest.log
+        format console
+        level INFO
+    }
 }
 
 http://modem.homelab.local,
