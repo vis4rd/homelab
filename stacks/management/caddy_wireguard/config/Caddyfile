@@ -1,0 +1,11 @@
+:8080 {
+    @homepage {
+        header X-Target-Service homepage
+    }
+    reverse_proxy @homepage 172.24.0.4:3000
+
+    @yourspotify {
+        header X-Target-Service yourspotify
+    }
+    reverse_proxy @yourspotify 172.24.0.6:8080
+}

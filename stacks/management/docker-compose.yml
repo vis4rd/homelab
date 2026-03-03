@@ -92,15 +92,65 @@ services:
     networks:
       - tailscale_net
 
+  # WIREGUARD (OUTPOST ACCESS)
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Warsaw
+      PUID: 1000
+      PGID: 1000
+    volumes:
+      - ./wireguard/config:/config
+      - /lib/modules:/lib/modules
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+    networks:
+      - wireguard_net
+    healthcheck:
+      test: ping -c 1 10.13.13.1 || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy_wireguard:
+    image: caddy:latest
+    container_name: caddy_wireguard
+    restart: unless-stopped
+    volumes:
+      - ./caddy_wireguard/config:/etc/caddy
+      - caddy_wireguard_data:/data
+      - caddy_wireguard_config:/config
+    network_mode: "service:wireguard"
+    depends_on:
+      - wireguard
+
+
 networks:
   frontend:
     name: frontend
     external: true
   tailscale_net:
     name: tailscale_exposed
+  wireguard_net:
+    name: wireguard_exposed
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.24.0.0/16
+          gateway: 172.24.0.1
 
 volumes:
   caddy_data:
   caddy_config:
   pihole:
   tailscale_data:
+  caddy_wireguard_data:
+    name: caddy_wireguard_data
+  caddy_wireguard_config:
+    name: caddy_wireguard_config
