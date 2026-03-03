@@ -92,13 +92,73 @@ services:
     networks:
       - statistics_for_strava_net
 
+  # YOUR SPOTIFY
+  your_spotify_server:
+    image: yooooomi/your_spotify_server
+    container_name: your_spotify_server
+    restart: unless-stopped
+    ports:
+      - 8083:8080
+    links:
+      - your_spotify_db
+    depends_on:
+      - your_spotify_db
+    env_file: ./.env
+    environment:
+      TIMEZONE: Europe/Warsaw
+      API_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}" # This MUST be included as a valid URL in the spotify dashboard
+      CLIENT_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}"
+      MONGO_ENDPOINT: mongodb://your_spotify_db:27017/your_spotify
+      CORS: "${YOURSPOTIFY_ENDPOINT}"
+
+      # Required fields in './.env':
+      # SPOTIFY_PUBLIC   = Obtained on spotify.dev
+      # SPOTIFY_SECRET   = Obtained on spotify.dev
+      # YOURSPOTIFY_ENDPOINT = The URL where "yourspotify" service will be available
+    networks:
+      frontend:
+      your_spotify_net:
+      wireguard_net:
+        ipv4_address: 172.24.0.6
+
+  your_spotify_db:
+    image: mongo:6
+    container_name: your_spotify_db
+    restart: unless-stopped
+    volumes:
+      - your_spotify_db:/data/db
+    networks:
+      - your_spotify_net
+
+  your_spotify_client:
+    image: yooooomi/your_spotify_client
+    container_name: your_spotify_client
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+    env_file: ./.env
+    environment:
+      TIMEZONE: Europe/Warsaw
+      API_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}"
+    networks:
+      - your_spotify_net
+      - frontend
+
 networks:
   frontend:
     name: frontend
     external: true
+  wireguard_net:
+    name: wireguard_exposed
+    external: true
   statistics_for_strava_net:
+    name: statistics_for_strava_net
+  your_spotify_net:
+    name: your_spotify_net
 
 volumes:
   sfs_build:
   sfs_db:
   sfs_files:
+  your_spotify_db:
+    name: your_spotify_db

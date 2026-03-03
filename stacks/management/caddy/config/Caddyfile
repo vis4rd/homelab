@@ -5,7 +5,7 @@
     log {
         output file /etc/caddy/logs/latest.log
         format console
-        level INFO
+        level DEBUG
     }
 }
 
@@ -76,6 +76,32 @@ http://jellyseerr.home.arpa,
 http://requests.homelab.local,
 http://requests.home.arpa {
 	reverse_proxy jellyseerr:5055
+}
+
+http://spotify.homelab.local,
+http://spotify.home.arpa {
+	redir {env.YOURSPOTIFY_ENDPOINT}
+}
+
+{env.YOURSPOTIFY_DOMAIN} {
+	@client {
+		path /
+		path /manifest.json /*.ico /*.js /*.png
+		path /_next/* /static/*
+		path /login /logout
+	}
+
+    reverse_proxy @client your_spotify_client:3000
+    reverse_proxy your_spotify_server:8080
+
+	tls {
+        dns ovh {
+            endpoint ovh-ca
+            application_key {env.OVH_APPLICATION_KEY}
+            application_secret {env.OVH_APPLICATION_SECRET}
+            consumer_key {env.OVH_CONSUMER_KEY}
+        }
+    }
 }
 
 # Return HTTP Status 404 for all undefined subdomains

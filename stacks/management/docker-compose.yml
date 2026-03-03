@@ -14,6 +14,12 @@ services:
       - "443:443/udp"
     env_file:
       - ./.env
+      # Required fields in './.env':
+      # OVH_APPLICATION_KEY    = Generated in OVH dashboard, required for TLS challenge (HTTPS).
+      # OVH_APPLICATION_SECRET = Generated in OVH dashboard, required for TLS challenge (HTTPS).
+      # OVH_CONSUMER_KEY       = Generated in OVH dashboard, required for TLS challenge (HTTPS).
+      # YOURSPOTIFY_DOMAIN     = The domain of "yourspotify" service.
+      # YOURSPOTIFY_ENDPOINT   = The full URL of "yourspotify" service.
     volumes:
       - ./caddy/config:/etc/caddy
       - caddy_data:/data
