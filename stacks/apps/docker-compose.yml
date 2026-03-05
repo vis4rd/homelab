@@ -116,10 +116,8 @@ services:
       # SPOTIFY_SECRET   = Obtained on spotify.dev
       # YOURSPOTIFY_ENDPOINT = The URL where "yourspotify" service will be available
     networks:
-      frontend:
+      frontend: # required for oauth2
       your_spotify_net:
-      wireguard_net:
-        ipv4_address: 172.24.0.6
 
   your_spotify_db:
     image: mongo:6
@@ -147,9 +145,6 @@ services:
 networks:
   frontend:
     name: frontend
-    external: true
-  wireguard_net:
-    name: wireguard_exposed
     external: true
   statistics_for_strava_net:
     name: statistics_for_strava_net

@@ -1,0 +1,41 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Reload Caddy",
+            "detail": "Reload Caddy configuration (without restarting the container)",
+            "type": "shell",
+            "command": "docker compose exec caddy caddy reload -c /etc/caddy/Caddyfile",
+            "options": {
+                "cwd": "${workspaceFolder}/stacks/management"
+            },
+            "icon": {
+                "id": "refresh",
+                "color": "terminal.ansiYellow"
+            }
+        },
+        {
+            "label": "Reload Caddy For Wireguard",
+            "detail": "Reload Caddy configuration (without restarting the container) associated with Wireguard",
+            "type": "shell",
+            "command": "docker exec caddy_wireguard caddy reload -c /etc/caddy/Caddyfile",
+            "options": {
+                "cwd": "${workspaceFolder}/stacks/management"
+            },
+            "icon": {
+                "id": "refresh",
+                "color": "terminal.ansiYellow"
+            }
+        }
+    ],
+    "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false
+    }
+}
