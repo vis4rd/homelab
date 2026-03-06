@@ -19,4 +19,4 @@ address=/homelab.local/192.168.2.2
 # address=/home.arpa/192.168.2.3
 # address=/homelab.local/192.168.2.3
 
-address=/yourspotify.visard.me/192.168.2.2
+address=/yourspotify.${EXTERNAL_DOMAIN}/192.168.2.2

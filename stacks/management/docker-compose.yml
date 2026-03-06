@@ -31,6 +31,9 @@ services:
     image: pihole/pihole:latest
     container_name: pihole
     restart: unless-stopped
+    depends_on:
+      pihole_init:
+        condition: service_completed_successfully
     ports:
       - 53:53/tcp # DNS TCP
       - 53:53/udp # DNS UDP
@@ -38,18 +41,37 @@ services:
       - 444:443/tcp # HTTPS access to admin dashboard
     env_file:
       - ./.env
+      # Required fields in './.env':
+      # FTLCONF_webserver_api_password = Password for the admin dashboard, required for API access.
     environment:
       TZ: Europe/Warsaw
       FTLCONF_dns_listeningMode: 'ALL'
       FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
       - pihole:/etc/pihole
-      # Track configuration files with git
-      - ./pihole/dnsmasq.d:/etc/dnsmasq.d
+      - pihole_config:/etc/dnsmasq.d
     networks:
       - frontend
     # cap_add:
       # - SYS_NICE
+
+  pihole_init:
+    image: alpine
+    container_name: pihole_init
+    restart: no
+    env_file:
+      - ./pihole/.env
+      # Required fields in './pihole/.env':
+      # EXTERNAL_DOMAIN = The domain used for SSL and external access.
+    volumes:
+      - ./pihole/config/dnsmasq.d/wildcard-internal.conf.template:/templates/wildcard-internal.conf.template:ro
+      - pihole_config:/output
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        apk add --no-cache gettext-envsubst
+        envsubst < /templates/wildcard-internal.conf.template > /output/wildcard-internal.conf
+    network_mode: host
 
   # TAILSCALE (EXTERNAL ACCESS)
   # docs:
@@ -154,6 +176,8 @@ volumes:
   caddy_data:
   caddy_config:
   pihole:
+  pihole_config:
+    name: pihole_config
   tailscale_data:
   caddy_wireguard_data:
     name: caddy_wireguard_data
