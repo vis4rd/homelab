@@ -2,12 +2,27 @@
 
 Configuration files used to self-host my own homelab.
 
-Any encountered documentation in this repository is mainly for me as I can quickly forget things :)
-and it might be out of date.
+Any encountered documentation in this repository is mainly for me as some configuration is
+(over)complicated :) and it might be out of date.
 
 ## Structure
 
 `stacks/` directory stores configuration of all other services, split into categories.
+
+| Stack           | Description                                               |
+| --------------- | --------------------------------------------------------- |
+| `management`    | Services crucial for working of the homelab.              |
+| `monitoring`    | Overview of the state and health of all services.         |
+| `storage`       | Storage and backup management.                            |
+| `streaming`     | Home media management and streaming services.             |
+| `apps`          | Various standalone apps                                   |
+| `homeassistant` | `TO-DO` Smart home devices management.                    |
+
+## Entrypoint
+
+There isn't a single entrypoint to running all services at once, but the most important is
+`management` stack, as it contains crucial services for correct working of the whole homelab, such
+as DNS, reverse proxy, external access etc. Therefore, it should be started first.
 
 ## Network diagram
 
