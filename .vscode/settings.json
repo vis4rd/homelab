@@ -2,6 +2,14 @@
     "editor.rulers": [
         100
     ],
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "dotenv": false,
+        "properties": false,
+    },
     "[yaml]": {
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
