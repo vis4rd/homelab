@@ -1,4 +1,6 @@
 services:
+
+  # DOCKHAND (DOCKER DASHBOARD)
   dockhand:
     image: fnsys/dockhand:latest
     container_name: dockhand
@@ -14,8 +16,9 @@ services:
 
 volumes:
   dockhand_data:
+    name: dockhand_data
 
 networks:
   frontend:
     name: frontend
-    driver: bridge
+    external: true

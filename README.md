@@ -7,8 +7,6 @@ and it might be out of date.
 
 ## Structure
 
-The entrypoint to local server launcher is in the root [Docker Compose file](./docker-compose.yml). It should launch a container management service.
-
 `stacks/` directory stores configuration of all other services, split into categories.
 
 ## Network diagram
