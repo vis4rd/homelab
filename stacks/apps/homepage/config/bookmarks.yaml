@@ -88,12 +88,18 @@
     - Caddy:
         - icon: sh-caddy-light
           href: https://caddyserver.com/docs/
+    - WireGuard:
+        - icon: sh-wireguard-light
+          href: https://hub.docker.com/r/linuxserver/wireguard/
     - Jellyfin:
         - icon: sh-jellyfin-light
           href: https://jellyfin.org/docs/
     - Statistics for Strava:
         - icon: sh-strava-light
           href: https://statistics-for-strava-docs.robiningelbrecht.be/#/
+    - Your Spotify:
+        - icon: sh-spotify-light
+          href: https://github.com/Yooooomi/your_spotify
     - Tailscale:
         - icon: sh-tailscale-light
           href: https://tailscale.com/docs

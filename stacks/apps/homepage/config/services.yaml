@@ -43,9 +43,13 @@
             icon: sh-caddy
             server: homelab
             container: caddy
-            widget:
-              type: caddy
-              url: http://caddy:2019
+            widgets:
+              - type: caddy
+                url: http://caddy:2019
+        - WireGuard:
+            icon: sh-wireguard
+            server: homelab
+            container: wireguard
         - Jellyfin:
             href: http://tv.home.arpa
             icon: sh-jellyfin

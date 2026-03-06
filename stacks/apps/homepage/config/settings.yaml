@@ -40,7 +40,7 @@ layout:
 
     Homelab:
       style: row
-      columns: 2
+      columns: 3
       useEqualHeights: true
 
     Outpost:
