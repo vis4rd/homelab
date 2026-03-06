@@ -25,6 +25,7 @@ services:
       # HOMEPAGE_VAR_SABNZBD_API_KEY                  = Sabnzbd widget API key
       # HOMEPAGE_VAR_DOCKHAND_USERNAME                = Dockhand username
       # HOMEPAGE_VAR_DOCKHAND_PASSWORD                = Dockhand password
+      # HOMEPAGE_VAR_YOURSPOTIFY_KEY                  = YourSpotify widget API key
     ports:
       - 3000:3000
     volumes:

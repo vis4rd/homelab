@@ -36,6 +36,9 @@
             icon: sh-file-browser
             server: homelab
             container: filebrowser
+            widget:
+              type: filebrowser
+              url: http://filebrowser:80
         - Caddy:
             icon: sh-caddy
             server: homelab
@@ -63,6 +66,16 @@
             icon: sh-strava
             server: homelab
             container: statistics_for_strava
+        - Your Spotify:
+            href: http://spotify.home.arpa
+            icon: sh-spotify
+            server: homelab
+            container: your_spotify_client
+            widget:
+              type: yourspotify
+              url: http://your_spotify_server:8080
+              key: "{{HOMEPAGE_VAR_YOURSPOTIFY_KEY}}"
+              interval: month
         - Tailscale:
             icon: sh-tailscale
             server: homelab
