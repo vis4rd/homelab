@@ -27,4 +27,6 @@ networks:
 
 volumes:
   filebrowser_data:
+    name: filebrowser_data
   filebrowser_config:
+    name: filebrowser_config

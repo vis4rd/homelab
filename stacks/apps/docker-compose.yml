@@ -153,7 +153,10 @@ networks:
 
 volumes:
   sfs_build:
+    name: sfs_build
   sfs_db:
+    name: sfs_db
   sfs_files:
+    name: sfs_files
   your_spotify_db:
     name: your_spotify_db

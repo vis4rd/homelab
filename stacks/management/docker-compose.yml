@@ -48,7 +48,7 @@ services:
       FTLCONF_dns_listeningMode: 'ALL'
       FTLCONF_misc_etc_dnsmasq_d: 'true'
     volumes:
-      - pihole:/etc/pihole
+      - pihole_data:/etc/pihole
       - pihole_config:/etc/dnsmasq.d
     networks:
       - frontend
@@ -160,7 +160,6 @@ services:
 networks:
   frontend:
     name: frontend
-    external: true
   tailscale_net:
     name: tailscale_exposed
   wireguard_net:
@@ -174,11 +173,15 @@ networks:
 
 volumes:
   caddy_data:
+    name: caddy_data
   caddy_config:
-  pihole:
+    name: caddy_config
+  pihole_data:
+    name: pihole_data
   pihole_config:
     name: pihole_config
   tailscale_data:
+    name: tailscale_data
   caddy_wireguard_data:
     name: caddy_wireguard_data
   caddy_wireguard_config:
