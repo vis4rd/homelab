@@ -3,9 +3,22 @@
 	admin 0.0.0.0:2019
 
     log {
-        output file /etc/caddy/logs/latest.log
+        output file /etc/caddy/logs/latest.log {
+			roll_size 10MiB
+		}
         format console
         level DEBUG
+    }
+}
+
+(ovh_dns_challenge) {
+    tls {
+        dns ovh {
+            endpoint ovh-ca
+            application_key {env.OVH_APPLICATION_KEY}
+            application_secret {env.OVH_APPLICATION_SECRET}
+            consumer_key {env.OVH_CONSUMER_KEY}
+        }
     }
 }
 
@@ -80,10 +93,10 @@ http://requests.home.arpa {
 
 http://spotify.homelab.local,
 http://spotify.home.arpa {
-	redir {env.YOURSPOTIFY_ENDPOINT}
+	redir https://yourspotify.{$EXTERNAL_DOMAIN}
 }
 
-{env.YOURSPOTIFY_DOMAIN} {
+yourspotify.{$EXTERNAL_DOMAIN} {
 	@client {
 		path /
 		path /manifest.json /*.ico /*.js /*.png
@@ -94,14 +107,7 @@ http://spotify.home.arpa {
     reverse_proxy @client your_spotify_client:3000
     reverse_proxy your_spotify_server:8080
 
-	tls {
-        dns ovh {
-            endpoint ovh-ca
-            application_key {env.OVH_APPLICATION_KEY}
-            application_secret {env.OVH_APPLICATION_SECRET}
-            consumer_key {env.OVH_CONSUMER_KEY}
-        }
-    }
+	import ovh_dns_challenge
 }
 
 # Return HTTP Status 404 for all undefined subdomains

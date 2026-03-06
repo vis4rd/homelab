@@ -18,8 +18,7 @@ services:
       # OVH_APPLICATION_KEY    = Generated in OVH dashboard, required for TLS challenge (HTTPS).
       # OVH_APPLICATION_SECRET = Generated in OVH dashboard, required for TLS challenge (HTTPS).
       # OVH_CONSUMER_KEY       = Generated in OVH dashboard, required for TLS challenge (HTTPS).
-      # YOURSPOTIFY_DOMAIN     = The domain of "yourspotify" service.
-      # YOURSPOTIFY_ENDPOINT   = The full URL of "yourspotify" service.
+      # EXTERNAL_DOMAIN        = The domain used for SSL and external access.
     volumes:
       - ./caddy/config:/etc/caddy
       - caddy_data:/data

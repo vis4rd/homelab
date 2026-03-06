@@ -106,15 +106,15 @@ services:
     env_file: ./.env
     environment:
       TIMEZONE: Europe/Warsaw
-      API_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}" # This MUST be included as a valid URL in the spotify dashboard
-      CLIENT_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}"
+      API_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}" # This MUST be included as a valid URL in the spotify dashboard
+      CLIENT_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}"
       MONGO_ENDPOINT: mongodb://your_spotify_db:27017/your_spotify
-      CORS: "${YOURSPOTIFY_ENDPOINT}"
+      CORS: "https://yourspotify.${EXTERNAL_DOMAIN}"
 
       # Required fields in './.env':
       # SPOTIFY_PUBLIC   = Obtained on spotify.dev
       # SPOTIFY_SECRET   = Obtained on spotify.dev
-      # YOURSPOTIFY_ENDPOINT = The URL where "yourspotify" service will be available
+      # EXTERNAL_DOMAIN  = The domain used for OAuth2 callback and SSL.
     networks:
       frontend: # required for oauth2
       your_spotify_net:
@@ -137,7 +137,7 @@ services:
     env_file: ./.env
     environment:
       TIMEZONE: Europe/Warsaw
-      API_ENDPOINT: "${YOURSPOTIFY_ENDPOINT}"
+      API_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}"
     networks:
       - your_spotify_net
       - frontend
