@@ -20,6 +20,11 @@ set the DNS IP separately.
 Used as reverse proxy. Resolves domain names sent from Pi-hole to individual Docker containers or
 other locally deployed services. Therefore all routing rules are actually defined in Caddyfile.
 
+Additionally, for any service that requires HTTPs, Caddy is responsible for SSL certificates
+management. Currently, a special build of Caddy is created that installs OVH provider, which is then
+used for DNS-01 TLS challenge. When using OVH as CA (instead of self-signed certificates),
+browsers do not warn about untrusted SSL. Note that this approach requires buying a domain on OVH.
+
 ### WireGuard
 
 WireGuard tunnel is a way to connect two (or more) networks, bypassing their firewalls, which allows
