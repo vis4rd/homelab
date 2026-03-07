@@ -3,7 +3,7 @@
 	admin 0.0.0.0:2019
 
     log {
-        output file /etc/caddy/logs/latest.log {
+        output file /logs/latest.log {
 			roll_size 10MiB
 		}
         format console
@@ -117,7 +117,7 @@ yourspotify.{$EXTERNAL_DOMAIN} {
 	import ovh_dns_challenge
 
 	log {
-        output file /etc/caddy/logs/yourspotify.{$EXTERNAL_DOMAIN}.log {
+        output file /logs/{uri}.log {
 			roll_size 10MiB
 		}
         format console

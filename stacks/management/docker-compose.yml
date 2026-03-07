@@ -21,6 +21,7 @@ services:
       # EXTERNAL_DOMAIN        = The domain used for SSL and external access.
     volumes:
       - ./caddy/config:/etc/caddy
+      - ./caddy/logs:/logs
       - caddy_data:/data
       - caddy_config:/config
     networks:
