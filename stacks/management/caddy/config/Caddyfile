@@ -97,17 +97,32 @@ http://spotify.home.arpa {
 }
 
 yourspotify.{$EXTERNAL_DOMAIN} {
+	@server {
+		path /import/full-privacy
+	}
+
 	@client {
 		path /
 		path /manifest.json /*.ico /*.js /*.png
 		path /_next/* /static/*
 		path /login /logout
+		path /settings/*
+		path /import/*
 	}
 
+    reverse_proxy @server your_spotify_server:8080
     reverse_proxy @client your_spotify_client:3000
     reverse_proxy your_spotify_server:8080
 
 	import ovh_dns_challenge
+
+	log {
+        output file /etc/caddy/logs/yourspotify.{$EXTERNAL_DOMAIN}.log {
+			roll_size 10MiB
+		}
+        format console
+        level DEBUG
+    }
 }
 
 # Return HTTP Status 404 for all undefined subdomains
