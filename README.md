@@ -112,3 +112,8 @@ graph TB
     class Host dockernet
     class Streaming reference
 ```
+
+## Homelab Outpost™️
+
+**Homelab Outpost** is a remote host that cooperates with the local homelab. In this case, only one is currently in use and its configuration is available in
+[this repository](https://github.com/vis4rd/homelab-outpost).
