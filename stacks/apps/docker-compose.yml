@@ -94,30 +94,29 @@ services:
       - statistics_for_strava_net
 
   # YOUR SPOTIFY
-  your_spotify_server:
-    image: yooooomi/your_spotify_server
-    container_name: your_spotify_server
+  your_spotify:
+    image: lscr.io/linuxserver/your_spotify:latest
+    container_name: your_spotify
     restart: unless-stopped
-    ports:
-      - 8083:8080
-    links:
-      - your_spotify_db
-    depends_on:
-      - your_spotify_db
-    env_file: ./.env
+    env_file:
+      - ./.env
     environment:
-      TIMEZONE: Europe/Warsaw
-      API_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}" # This MUST be included as a valid URL in the spotify dashboard
-      CLIENT_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}"
-      MONGO_ENDPOINT: mongodb://your_spotify_db:27017/your_spotify
+      TZ: Europe/Warsaw
+      PUID: 1000
+      PGID: 1000
+      APP_URL: "https://yourspotify.${EXTERNAL_DOMAIN}"
       CORS: "https://yourspotify.${EXTERNAL_DOMAIN}"
+      MONGO_ENDPOINT: mongodb://your_spotify_db:27017/your_spotify
+      LOG_LEVEL: debug
 
       # Required fields in './.env':
       # SPOTIFY_PUBLIC   = Obtained on spotify.dev
       # SPOTIFY_SECRET   = Obtained on spotify.dev
       # EXTERNAL_DOMAIN  = The domain used for OAuth2 callback and SSL.
+    depends_on:
+      - your_spotify_db
     networks:
-      frontend: # required for oauth2
+      frontend:
       your_spotify_net:
 
   your_spotify_db:
@@ -127,21 +126,7 @@ services:
     volumes:
       - your_spotify_db:/data/db
     networks:
-      - your_spotify_net
-
-  your_spotify_client:
-    image: yooooomi/your_spotify_client
-    container_name: your_spotify_client
-    restart: unless-stopped
-    ports:
-      - 3001:3000
-    env_file: ./.env
-    environment:
-      TIMEZONE: Europe/Warsaw
-      API_ENDPOINT: "https://yourspotify.${EXTERNAL_DOMAIN}"
-    networks:
-      - your_spotify_net
-      - frontend
+      your_spotify_net:
 
 networks:
   frontend:
