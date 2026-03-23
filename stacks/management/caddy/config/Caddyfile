@@ -1,14 +1,21 @@
+(logging) {
+	log {
+        output file /logs/{args[0]}.log {
+			roll_size 10MiB
+		}
+        format console {
+            level_format upper
+            time_format wall_milli
+        }
+        level DEBUG
+    }
+}
+
 {
 	auto_https disable_redirects
 	admin 0.0.0.0:2019
 
-    log {
-        output file /logs/latest.log {
-			roll_size 10MiB
-		}
-        format console
-        level DEBUG
-    }
+    import logging latest
 }
 
 (ovh_dns_challenge) {
@@ -22,6 +29,7 @@
     }
 }
 
+# Local network endpoints
 http://modem.homelab.local,
 http://modem.home.arpa {
 	reverse_proxy 192.168.1.1
@@ -108,6 +116,13 @@ yourspotify.{$EXTERNAL_DOMAIN} {
         format console
         level DEBUG
     }
+}
+
+http://auth.homelab.local,
+http://auth.home.arpa {
+	import logging auth
+
+    reverse_proxy authentik_server:9000
 }
 
 # Return HTTP Status 404 for all undefined subdomains

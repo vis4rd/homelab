@@ -158,6 +158,82 @@ services:
     depends_on:
       - wireguard
 
+  # MARK: AUTHENTIK (AUTHENTICATION)
+  authentik_db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik_db
+    restart: unless-stopped
+    env_file:
+      - ./authentik/.env
+      # Required fields in './authentik/.env':
+      # POSTGRES_USER     = Authentik PostgreSQL user.
+      # POSTGRES_PASSWORD = Authentik PostgreSQL password.
+    environment:
+      POSTGRES_DB: authentik
+    volumes:
+      - authentik_db_data:/var/lib/postgresql/data
+    networks:
+      - authentik_net
+    healthcheck:
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      test:
+        - CMD-SHELL
+        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      timeout: 5s
+
+  authentik_server:
+    image: ghcr.io/goauthentik/server:2026.2
+    container_name: authentik_server
+    restart: unless-stopped
+    env_file:
+      - ./authentik/.env
+      # Required fields in './authentik/.env':
+      # AUTHENTIK_SECRET_KEY           = Random long secret string.
+      # POSTGRES_USER                  = Authentik PostgreSQL user.
+      # POSTGRES_PASSWORD              = Authentik PostgreSQL password.
+      # AUTHENTIK_POSTGRESQL__USER     = Authentik PostgreSQL user.
+      # AUTHENTIK_POSTGRESQL__PASSWORD = Authentik PostgreSQL password.
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: authentik_db
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+    depends_on:
+      authentik_db:
+        condition: service_healthy
+    volumes:
+      - ./authentik/data:/data
+    networks:
+      - frontend
+      - authentik_net
+    command: server
+    shm_size: 512mb
+
+  authentik_worker:
+    image: ghcr.io/goauthentik/server:2026.2
+    container_name: authentik_worker
+    restart: unless-stopped
+    env_file:
+      - ./authentik/.env
+      # Required fields in './authentik/.env':
+      # POSTGRES_USER                  = Authentik PostgreSQL user.
+      # POSTGRES_PASSWORD              = Authentik PostgreSQL password.
+      # AUTHENTIK_POSTGRESQL__USER     = Authentik PostgreSQL user.
+      # AUTHENTIK_POSTGRESQL__PASSWORD = Authentik PostgreSQL password.
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: authentik_db
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+    depends_on:
+      authentik_db:
+        condition: service_healthy
+    volumes:
+      - /run/podman/podman.sock:/var/run/docker.sock
+      - ./authentik/data:/data
+    networks:
+      - authentik_net
+    command: worker
+    shm_size: 512mb
+
 
 networks:
   frontend:
@@ -172,6 +248,8 @@ networks:
       config:
         - subnet: 172.24.0.0/16
           gateway: 172.24.0.1
+  authentik_net:
+    name: authentik_net
 
 volumes:
   caddy_data:
@@ -188,3 +266,5 @@ volumes:
     name: caddy_wireguard_data
   caddy_wireguard_config:
     name: caddy_wireguard_config
+  authentik_db_data:
+    name: authentik_db_data

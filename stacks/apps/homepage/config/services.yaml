@@ -135,6 +135,16 @@
               type: sabnzbd
               url: http://sabnzbd:8080
               key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
+        - Authentik:
+            href: http://auth.outpost.arpa
+            icon: sh-authentik
+            server: homelab
+            container: authentik_server
+            widget:
+              type: authentik
+              url: http://authentik_server:9000
+              key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
+              version: 2
 
     - Outpost:
         - Alfa Males 2025:

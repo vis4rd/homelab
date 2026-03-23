@@ -118,3 +118,6 @@
     - Sabnzbd:
         - icon: sh-sabnzbd-light
           href: https://sabnzbd.org/wiki/
+    - Authentik:
+        - icon: sh-authentik-light
+          href: https://docs.goauthentik.io/
