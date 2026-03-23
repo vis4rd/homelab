@@ -1,6 +1,6 @@
 services:
 
-  # CADDY (REVERSE PROXY)
+  # MARK: CADDY (REVERSE PROXY)
   caddy:
     build:
       dockerfile: ./caddy/Dockerfile
@@ -27,7 +27,7 @@ services:
     networks:
       - frontend
 
-  # PI-HOLE (ADBLOCK + DNS SERVER)
+  # MARK: PI-HOLE (ADBLOCK + DNS SERVER)
   pihole:
     image: pihole/pihole:latest
     container_name: pihole
@@ -74,7 +74,7 @@ services:
         envsubst < /templates/wildcard-internal.conf.template > /output/wildcard-internal.conf
     network_mode: host
 
-  # TAILSCALE (EXTERNAL ACCESS)
+  # MARK: TAILSCALE (EXTERNAL ACCESS)
   # docs:
   # - https://tailscale.com/docs/features/tailscale-services#step-3-create-a-service-proxy
   # - https://tailscale.com/docs/reference/tailscale-services-configuration-file
@@ -120,7 +120,7 @@ services:
     networks:
       - tailscale_net
 
-  # WIREGUARD (OUTPOST ACCESS)
+  # MARK: WIREGUARD (OUTPOST ACCESS)
   wireguard:
     image: linuxserver/wireguard
     container_name: wireguard
@@ -151,6 +151,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./caddy_wireguard/config:/etc/caddy
+      - ./caddy_wireguard/logs:/logs
       - caddy_wireguard_data:/data
       - caddy_wireguard_config:/config
     network_mode: "service:wireguard"

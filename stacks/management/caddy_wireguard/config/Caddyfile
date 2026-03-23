@@ -3,4 +3,9 @@
         header X-Target-Service tv
     }
     reverse_proxy @tv 172.24.0.8:8096
+
+    @spotify {
+        header X-Target-Service spotify
+    }
+    reverse_proxy @spotify 172.24.0.10:80
 }
