@@ -15,19 +15,6 @@
                 "id": "refresh",
                 "color": "terminal.ansiYellow"
             }
-        },
-        {
-            "label": "Reload Caddy For Wireguard",
-            "detail": "Reload Caddy configuration (without restarting the container) associated with Wireguard",
-            "type": "shell",
-            "command": "docker exec caddy_wireguard caddy reload -c /etc/caddy/Caddyfile",
-            "options": {
-                "cwd": "${workspaceFolder}/stacks/management"
-            },
-            "icon": {
-                "id": "refresh",
-                "color": "terminal.ansiYellow"
-            }
         }
     ],
     "presentation": {

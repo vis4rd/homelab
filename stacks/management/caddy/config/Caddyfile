@@ -120,9 +120,7 @@ yourspotify.{$EXTERNAL_DOMAIN} {
 
 http://auth.homelab.local,
 http://auth.home.arpa {
-	import logging auth
-
-    reverse_proxy authentik_server:9000
+	redir https://auth.{$EXTERNAL_DOMAIN}
 }
 
 # Return HTTP Status 404 for all undefined subdomains

@@ -21,19 +21,13 @@ services:
       - type: bind
         source: /srv/storage/Streaming/Media
         target: /media
-      # Optional - extra fonts to be used during transcoding with subtitle burn-in
-      # - type: bind
-      #   source: /path/to/fonts
-      #   target: /usr/local/share/fonts/custom
-      #   read_only: true
     environment:
       NVIDIA_VISIBLE_DEVICES: all
       NVIDIA_DRIVER_CAPABILITIES: all
     networks:
       frontend:
-      tailscale_net:
       streaming_net:
-      wireguard_net:
+      external_access_net:
         ipv4_address: 172.24.0.8
     deploy:
       resources:
@@ -115,7 +109,6 @@ services:
       LOG_LEVEL: debug
     networks:
       - frontend
-      - tailscale_net
       - streaming_net
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
@@ -147,11 +140,8 @@ networks:
   frontend:
     name: frontend
     external: true
-  tailscale_net:
-    name: tailscale_exposed
-    external: true
-  wireguard_net:
-    name: wireguard_exposed
+  external_access_net:
+    name: external_access_net
     external: true
   streaming_net:
     name: streaming_net

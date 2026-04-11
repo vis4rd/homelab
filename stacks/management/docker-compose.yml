@@ -74,182 +74,26 @@ services:
         envsubst < /templates/wildcard-internal.conf.template > /output/wildcard-internal.conf
     network_mode: host
 
-  # MARK: TAILSCALE (EXTERNAL ACCESS)
-  # docs:
-  # - https://tailscale.com/docs/features/tailscale-services#step-3-create-a-service-proxy
-  # - https://tailscale.com/docs/reference/tailscale-services-configuration-file
-  # - https://tailscale.com/docs/features/containers/docker
-  tailscale:
-    image: tailscale/tailscale:latest
-    container_name: tailscale
+  newt:
+    image: fosrl/newt
+    container_name: newt
     restart: unless-stopped
     env_file:
-      - ./.env
-    environment:
-      TZ: Europe/Warsaw
-      TS_HOSTNAME: homelab
-      TS_STATE_DIR: /var/lib/tailscale
-      TS_EXTRA_ARGS: '--advertise-tags=tag:homelab'
-      # TS_SERVE_CONFIG: /etc/tailscale/services.json
-
-      # Required fields in './.env':
-      # TS_CLIENT_ID     = Generated as credential in Tailscale admin console
-      # TS_CLIENT_SECRET = Generated as credential in Tailscale admin console
-    volumes:
-      - tailscale_data:/var/lib/tailscale
-      - ./tailscale/config:/etc/tailscale
-    devices:
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - NET_ADMIN
-    entrypoint: /bin/sh -c "
-      (
-        sleep 5;
-        tailscale serve set-config --all /etc/tailscale/services.json;
-      ) &
-      exec /usr/local/bin/containerboot"
-    # Workaround for services not being advertised on startup,
-    # see: https://github.com/tailscale/tailscale/issues/18255.
-
-    # TS_SERVE_CONFIG does not support the new serve config format.
-    # This might be fixed in the future,
-    # see: https://github.com/tailscale/tailscale/pull/18527.
-
-    # `post_start` script cannot be used here, because it is a compose
-    # feature and on host reboots is not considered by docker daemon.
+      - ./newt/.env
     networks:
-      - tailscale_net
-
-  # MARK: WIREGUARD (OUTPOST ACCESS)
-  wireguard:
-    image: linuxserver/wireguard
-    container_name: wireguard
-    restart: unless-stopped
-    environment:
-      TZ: Europe/Warsaw
-      PUID: 1000
-      PGID: 1000
-    volumes:
-      - ./wireguard/config:/config
-      - /lib/modules:/lib/modules
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    sysctls:
-      - net.ipv4.ip_forward=1
-    networks:
-      - wireguard_net
-    healthcheck:
-      test: ping -c 1 10.13.13.1 || exit 1
-      interval: 30s
-      timeout: 5s
-      retries: 3
-
-  caddy_wireguard:
-    image: caddy:latest
-    container_name: caddy_wireguard
-    restart: unless-stopped
-    volumes:
-      - ./caddy_wireguard/config:/etc/caddy
-      - ./caddy_wireguard/logs:/logs
-      - caddy_wireguard_data:/data
-      - caddy_wireguard_config:/config
-    network_mode: "service:wireguard"
-    depends_on:
-      - wireguard
-
-  # MARK: AUTHENTIK (AUTHENTICATION)
-  authentik_db:
-    image: docker.io/library/postgres:16-alpine
-    container_name: authentik_db
-    restart: unless-stopped
-    env_file:
-      - ./authentik/.env
-      # Required fields in './authentik/.env':
-      # POSTGRES_USER     = Authentik PostgreSQL user.
-      # POSTGRES_PASSWORD = Authentik PostgreSQL password.
-    environment:
-      POSTGRES_DB: authentik
-    volumes:
-      - authentik_db_data:/var/lib/postgresql/data
-    networks:
-      - authentik_net
-    healthcheck:
-      interval: 30s
-      retries: 5
-      start_period: 20s
-      test:
-        - CMD-SHELL
-        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
-      timeout: 5s
-
-  authentik_server:
-    image: ghcr.io/goauthentik/server:2026.2
-    container_name: authentik_server
-    restart: unless-stopped
-    env_file:
-      - ./authentik/.env
-      # Required fields in './authentik/.env':
-      # AUTHENTIK_SECRET_KEY           = Random long secret string.
-      # POSTGRES_USER                  = Authentik PostgreSQL user.
-      # POSTGRES_PASSWORD              = Authentik PostgreSQL password.
-      # AUTHENTIK_POSTGRESQL__USER     = Authentik PostgreSQL user.
-      # AUTHENTIK_POSTGRESQL__PASSWORD = Authentik PostgreSQL password.
-    environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik_db
-      AUTHENTIK_POSTGRESQL__NAME: authentik
-    depends_on:
-      authentik_db:
-        condition: service_healthy
-    volumes:
-      - ./authentik/data:/data
-    networks:
-      - frontend
-      - authentik_net
-    command: server
-    shm_size: 512mb
-
-  authentik_worker:
-    image: ghcr.io/goauthentik/server:2026.2
-    container_name: authentik_worker
-    restart: unless-stopped
-    env_file:
-      - ./authentik/.env
-      # Required fields in './authentik/.env':
-      # POSTGRES_USER                  = Authentik PostgreSQL user.
-      # POSTGRES_PASSWORD              = Authentik PostgreSQL password.
-      # AUTHENTIK_POSTGRESQL__USER     = Authentik PostgreSQL user.
-      # AUTHENTIK_POSTGRESQL__PASSWORD = Authentik PostgreSQL password.
-    environment:
-      AUTHENTIK_POSTGRESQL__HOST: authentik_db
-      AUTHENTIK_POSTGRESQL__NAME: authentik
-    depends_on:
-      authentik_db:
-        condition: service_healthy
-    volumes:
-      - /run/podman/podman.sock:/var/run/docker.sock
-      - ./authentik/data:/data
-    networks:
-      - authentik_net
-    command: worker
-    shm_size: 512mb
-
+      - external_access_net
 
 networks:
   frontend:
     name: frontend
-  tailscale_net:
-    name: tailscale_exposed
-  wireguard_net:
-    name: wireguard_exposed
+  external_access_net:
+    name: external_access_net
     driver: bridge
     ipam:
       driver: default
       config:
         - subnet: 172.24.0.0/16
           gateway: 172.24.0.1
-  authentik_net:
-    name: authentik_net
 
 volumes:
   caddy_data:
@@ -260,11 +104,3 @@ volumes:
     name: pihole_data
   pihole_config:
     name: pihole_config
-  tailscale_data:
-    name: tailscale_data
-  caddy_wireguard_data:
-    name: caddy_wireguard_data
-  caddy_wireguard_config:
-    name: caddy_wireguard_config
-  authentik_db_data:
-    name: authentik_db_data

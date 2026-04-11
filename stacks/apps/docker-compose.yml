@@ -118,7 +118,7 @@ services:
     networks:
       frontend:
       your_spotify_net:
-      wireguard_net:
+      external_access_net:
         ipv4_address: 172.24.0.10
 
   your_spotify_db:
@@ -134,8 +134,8 @@ networks:
   frontend:
     name: frontend
     external: true
-  wireguard_net:
-    name: wireguard_exposed
+  external_access_net:
+    name: external_access_net
     external: true
   statistics_for_strava_net:
     name: statistics_for_strava_net

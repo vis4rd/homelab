@@ -74,10 +74,10 @@
             href: http://spotify.home.arpa
             icon: sh-spotify
             server: homelab
-            container: your_spotify_client
+            container: your_spotify
             widget:
               type: yourspotify
-              url: http://your_spotify_server:8080
+              url: http://your_spotify:8080
               key: "{{HOMEPAGE_VAR_YOURSPOTIFY_KEY}}"
               interval: month
         - Tailscale:
@@ -136,7 +136,7 @@
               url: http://sabnzbd:8080
               key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
         - Authentik:
-            href: http://auth.outpost.arpa
+            href: http://auth.home.arpa
             icon: sh-authentik
             server: homelab
             container: authentik_server
@@ -144,6 +144,8 @@
               type: authentik
               url: http://authentik_server:9000
               key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
+              headers:
+                Host: auth.home.arpa
               version: 2
 
     - Outpost:
