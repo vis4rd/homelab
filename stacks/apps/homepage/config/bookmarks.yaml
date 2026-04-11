@@ -6,71 +6,9 @@
     - Proton Mail:
         - icon: sh-proton-mail-light
           href: https://mail.proton.me/
-    - Google Drive:
-        - icon: sh-google-drive-light
-          href: https://drive.google.com/drive/my-drive
     - Github:
         - icon: sh-github-light
           href: https://github.com/
-    - Lichess:
-        - icon: si-chessdotcom-#ffffff
-          href: https://lichess.org/
-    - Youtube:
-        - icon: sh-youtube-light
-          href: https://www.youtube.com/
-    - Twitch:
-        - icon: sh-twitch-light
-          href: https://www.twitch.tv/
-
-- Finance:
-    - Zondacrypto:
-        - icon: https://zondacrypto.com/o/bb-theme/images/appBar/app-icon.png
-          abbr: ZC
-          href: https://zondacrypto.com/
-    - Obligacje Skarbowe:
-        - icon: https://www.obligacjeskarbowe.pl/static/front/treasurybond/img/logo.svg
-          abbr: OS
-          href: https://www.obligacjeskarbowe.pl/
-    - Binance:
-        - icon: si-binance-#ffffff
-          abbr: BN
-          href: https://www.binance.com/en
-    - XTB:
-        - icon: https://companieslogo.com/img/orig/XTB.WA-435c9163.svg
-          abbr: XT
-          href: https://www.xtb.com/pl
-    - Top Kantor:
-        - icon: https://topkantor.pl/kantor/img/logo_small.png
-          abbr: TK
-          href: https://topkantor.pl/
-    - JustETF:
-        - icon: https://www.justetf.com/images/logo/justetf-logo.png?v2
-          abbr: JE
-          href: https://www.justetf.com/en/
-    - MBank:
-        - icon: https://companieslogo.com/img/orig/MBK.WA-b110662f.svg
-          abbr: MB
-          href: https://www.mbank.pl/
-    - Revolut:
-        - abbr: R
-          href: https://www.revolut.com/
-
-- Streaming:
-    - Netflix:
-        - icon: sh-netflix
-          href: https://www.netflix.com/
-    - Prime Video:
-        - icon: sh-amazon-prime-video
-          href: https://www.primevideo.com/
-    - Disney+:
-        - icon: sh-disney-plus
-          href: https://www.disneyplus.com/
-    - HBO Max:
-        - icon: sh-hbo-max-light
-          href: https://www.hbomax.com/
-    - Apple TV+:
-        - icon: sh-apple-tv-light
-          href: https://tv.apple.com/
 
 - Documentation:
     - Homepage:
@@ -88,9 +26,6 @@
     - Caddy:
         - icon: sh-caddy-light
           href: https://caddyserver.com/docs/
-    - WireGuard:
-        - icon: sh-wireguard-light
-          href: https://hub.docker.com/r/linuxserver/wireguard/
     - Jellyfin:
         - icon: sh-jellyfin-light
           href: https://jellyfin.org/docs/
@@ -100,9 +35,6 @@
     - Your Spotify:
         - icon: sh-spotify-light
           href: https://github.com/Yooooomi/your_spotify
-    - Tailscale:
-        - icon: sh-tailscale-light
-          href: https://tailscale.com/docs
     - Sonarr:
         - icon: sh-sonarr-light
           href: https://github.com/linuxserver/docker-sonarr
@@ -118,6 +50,6 @@
     - Sabnzbd:
         - icon: sh-sabnzbd-light
           href: https://sabnzbd.org/wiki/
-    - Authentik:
-        - icon: sh-authentik-light
-          href: https://docs.goauthentik.io/
+    - "Pangolin / Newt":
+        - icon: sh-pangolin-light
+          href: https://docs.pangolin.net/

@@ -15,25 +15,13 @@ disableIndexing: true
 layout:
   # Daily tab
   Calendar:
-    tab: Daily
     header: false
 
   Bookmarks:
-    tab: Daily
     header: false
-
-  Streaming:
-    tab: Daily
-    style: row
-
-  Finance:
-    tab: Daily
-    style: row
-    columns: 2
 
   # Services tab
   Services:
-    tab: Services
     style: row
     columns: 1
     header: false
@@ -43,10 +31,8 @@ layout:
       columns: 3
       useEqualHeights: true
 
-    Outpost:
     External:
 
   Documentation:
-    tab: Services
     style: row
     columns: 2

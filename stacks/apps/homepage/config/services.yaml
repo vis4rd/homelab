@@ -46,10 +46,6 @@
             widgets:
               - type: caddy
                 url: http://caddy:2019
-        - WireGuard:
-            icon: sh-wireguard
-            server: homelab
-            container: wireguard
         - Jellyfin:
             href: http://tv.home.arpa
             icon: sh-jellyfin
@@ -80,14 +76,6 @@
               url: http://your_spotify:8080
               key: "{{HOMEPAGE_VAR_YOURSPOTIFY_KEY}}"
               interval: month
-        - Tailscale:
-            icon: sh-tailscale
-            server: homelab
-            container: tailscale
-            widget:
-              type: tailscale
-              key: "{{HOMEPAGE_VAR_TAILSCALE_ACCESS_TOKEN}}"
-              deviceid: "{{HOMEPAGE_VAR_TAILSCALE_DEVICE_ID}}"
         - Sonarr:
             href: http://sonarr.home.arpa
             icon: sh-sonarr
@@ -135,28 +123,10 @@
               type: sabnzbd
               url: http://sabnzbd:8080
               key: "{{HOMEPAGE_VAR_SABNZBD_API_KEY}}"
-        - Authentik:
-            href: http://auth.home.arpa
-            icon: sh-authentik
+        - Newt:
+            icon: sh-pangolin
             server: homelab
-            container: authentik_server
-            widget:
-              type: authentik
-              url: http://authentik_server:9000
-              key: "{{HOMEPAGE_VAR_AUTHENTIK_TOKEN}}"
-              headers:
-                Host: auth.home.arpa
-              version: 2
-
-    - Outpost:
-        - Alfa Males 2025:
-            description: "Server hosted on Oracle Cloud with IP: {{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}."
-            icon: sh-minecraft
-            widget:
-              type: gamedig
-              serverType: minecraft
-              url: udp://{{HOMEPAGE_VAR_MINECRAFT_SERVER_IP}}
-              fields: ["status", "currentPlayers", "ping"]
+            container: newt
 
     - External:
         - visard.me:
