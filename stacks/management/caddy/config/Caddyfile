@@ -123,6 +123,11 @@ http://auth.home.arpa {
 	redir https://auth.{$EXTERNAL_DOMAIN}
 }
 
+http://backup.homelab.local,
+http://backup.home.arpa {
+	reverse_proxy duplicati:8200
+}
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {

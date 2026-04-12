@@ -20,6 +20,25 @@ services:
     networks:
       - frontend
 
+  duplicati:
+    image: duplicati/duplicati:latest
+    container_name: duplicati
+    restart: unless-stopped
+    volumes:
+      - duplicati_data:/data
+      - /mnt/backup:/backups
+      - /home:/sources/home
+      - /var/lib/docker/volumes:/sources/docker_volumes
+    environment:
+      SETTINGS_ENCRYPTION_KEY: "$$settings-key"
+      DUPLICATI__SECRET_PROVIDER: file-secret:///run/secrets/duplicati_secrets
+      DUPLICATI__WEBSERVICE_PASSWORD: "$$ui-password"
+      DUPLICATI__WEBSERVICE_ALLOWED_HOSTNAMES: "backup.home.arpa"
+    secrets:
+      - duplicati_secrets
+    networks:
+      - frontend
+
 networks:
   frontend:
     name: frontend
@@ -30,3 +49,9 @@ volumes:
     name: filebrowser_data
   filebrowser_config:
     name: filebrowser_config
+  duplicati_data:
+    name: duplicati_data
+
+secrets:
+  duplicati_secrets:
+    file: ./duplicati/secrets.json
