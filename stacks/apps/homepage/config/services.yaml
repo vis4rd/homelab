@@ -146,6 +146,10 @@
                 name: Google Calendar
                 url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
                 color: green
+              - type: ical
+                name: TV Series
+                url: http://sonarr:8989/feed/v3/calendar/Sonarr.ics?apikey=b9594a51b91b40849cb948c778bdabfc
+                color: purple
           - type: calendar
             view: agenda
             maxEvents: 15
@@ -154,3 +158,7 @@
                 name: Google Calendar
                 url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
                 color: green
+              - type: ical
+                name: TV Series
+                url: http://sonarr:8989/feed/v3/calendar/Sonarr.ics?apikey=b9594a51b91b40849cb948c778bdabfc
+                color: purple
