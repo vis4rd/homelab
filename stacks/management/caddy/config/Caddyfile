@@ -128,6 +128,35 @@ http://backup.home.arpa {
 	reverse_proxy duplicati:8200
 }
 
+http://money.homelab.local,
+http://money.home.arpa,
+http://finance.homelab.local,
+http://finance.home.arpa {
+	redir https://finance.{$EXTERNAL_DOMAIN}
+}
+
+http://money-import.homelab.local,
+http://money-import.home.arpa,
+http://finance-import.homelab.local,
+http://finance-import.home.arpa {
+	redir https://finance-import.{$EXTERNAL_DOMAIN}
+}
+
+finance-import.{$EXTERNAL_DOMAIN} {
+	reverse_proxy fireflyiii_importer:8080
+
+	import ovh_dns_challenge
+	import logging finance-import
+}
+
+finance.{$EXTERNAL_DOMAIN} {
+	reverse_proxy fireflyiii:8080
+
+	import ovh_dns_challenge
+	import logging finance
+}
+
+
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
 http://*.home.arpa {

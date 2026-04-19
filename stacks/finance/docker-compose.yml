@@ -1,0 +1,168 @@
+services:
+  fireflyiii:
+    image: fireflyiii/core:latest
+    container_name: fireflyiii
+    restart: unless-stopped
+    env_file:
+      - ./fireflyiii/.env
+      - ./fireflyiii/.cron.env
+      - ./fireflyiii/.db.env
+      #
+      # Required fields in ./fireflyiii/.env:
+      # APP_URL
+      # APP_KEY
+      # SITE_OWNER
+      #
+      # Required fields in ./fireflyiii/.cron.env:
+      # STATIC_CRON_TOKEN
+      #
+      # Required fields in ./fireflyiii/.db.env:
+      # MYSQL_PASSWORD
+      # DB_PASSWORD
+    environment:
+      FIREFLY_III_LAYOUT: v1
+      APP_NAME: FireflyIII
+      BROADCAST_DRIVER: log
+      QUEUE_DRIVER: sync
+      CACHE_PREFIX: firefly
+      DKR_CHECK_SQLITE: true
+      DISABLE_CSP_HEADER: false
+      DISABLE_FRAME_HEADER: false
+      AUTHENTICATION_GUARD_HEADER: REMOTE_USER
+      AUTHENTICATION_GUARD: web
+      MAP_DEFAULT_LAT: 50.1552
+      MAP_DEFAULT_LONG: 19.0125
+      MAP_DEFAULT_ZOOM: 6
+      SEND_ERROR_MESSAGE: true
+      MAILGUN_ENDPOINT: api.eu.mailgun.net
+      COOKIE_PATH: "/"
+      COOKIE_SECURE: false
+      COOKIE_SAMESITE: lax
+      CACHE_DRIVER: file
+      SESSION_DRIVER: file
+      MYSQL_USE_SSL: false
+      MYSQL_SSL_VERIFY_SERVER_CERT: true
+      MYSQL_SSL_CAPATH: /etc/ssl/certs/
+      DB_CONNECTION: mysql
+      DB_HOST: fireflyiii_db
+      DB_PORT: 3306
+      DB_DATABASE: firefly
+      DB_USERNAME: firefly
+      AUDIT_LOG_LEVEL: emergency
+      APP_LOG_LEVEL: info
+      LOG_CHANNEL: stack
+      TRUSTED_PROXIES: "**"
+      TZ: Europe/Warsaw
+      DEFAULT_LANGUAGE: en_US
+      DEFAULT_LOCALE: equal
+      APP_DEBUG: false
+      APP_ENV: production
+    volumes:
+      - fireflyiii_data:/var/www/html/storage/upload
+    networks:
+      - fireflyiii_net
+      - frontend
+    depends_on:
+      - fireflyiii_db
+
+  fireflyiii_db:
+    image: mariadb:lts
+    container_name: fireflyiii_db
+    restart: unless-stopped
+    env_file:
+      - ./fireflyiii/.db.env
+      # Required fields in ./fireflyiii/.db.env:
+      # MYSQL_PASSWORD
+      # DB_PASSWORD
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: firefly
+      MYSQL_USER: firefly
+    volumes:
+      - fireflyiii_db:/var/lib/mysql
+    networks:
+      - fireflyiii_net
+
+  fireflyiii_cron:
+    image: alpine
+    container_name: fireflyiii_cron
+    restart: unless-stopped
+    env_file:
+      - ./fireflyiii/.cron.env
+      #
+      # Required fields in ./fireflyiii/.cron.env:
+      # STATIC_CRON_TOKEN
+      #
+    command: ["sh", "-c", "apk add tzdata && \
+      (ln -s /usr/share/zoneinfo/$$TZ /etc/localtime || true) && \
+      echo \"0 3 * * * wget -qO- http://fireflyiii:8080/api/v1/cron/$$STATIC_CRON_TOKEN;echo\" \
+      | crontab - && \
+      crond -f -L /dev/stdout"]
+    networks:
+      - fireflyiii_net
+    depends_on:
+      - fireflyiii
+
+  fireflyiii_importer:
+    image: fireflyiii/data-importer:latest
+    container_name: fireflyiii_importer
+    restart: unless-stopped
+    env_file:
+      - ./fireflyiii/.importer.env
+      #
+      # Required fields in ./fireflyiii/.importer.db.env:
+      # VANITY_URL
+      # FIREFLY_III_ACCESS_TOKEN
+      # ENABLE_BANKING_APP_ID
+      # ENABLE_BANKING_PRIVATE_KEY
+      #
+    environment:
+      FIREFLY_III_URL: http://fireflyiii:8080
+      LUNCH_FLOW_API_URL: https://lunchflow.app/api/v1/
+      FALLBACK_LOCALE: en_US
+      USE_CACHE: true
+      IGNORE_DUPLICATE_ERRORS: false
+      IGNORE_NOT_FOUND_TRANSACTIONS: false
+      CAN_POST_AUTOIMPORT: false
+      CAN_POST_FILES: false
+      FALLBACK_IN_DIR: false
+      VERIFY_TLS_SECURITY: true
+      CONNECTION_TIMEOUT: 31.41
+      APP_ENV: local
+      APP_DEBUG: false
+      LOG_CHANNEL: stack
+      LOG_RETURN_JSON: false
+      LOG_LEVEL: info
+      TRUSTED_PROXIES: "**"
+      TZ: Europe/Warsaw
+      ENABLE_MAIL_REPORT: false
+      EXPECT_SECURE_URL: false
+      FAKE_DATA: false
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: file
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: file
+      SESSION_LIFETIME: 120
+      IS_EXTERNAL: false
+      APP_NAME: DataImporter
+      APP_URL: http://localhost
+    volumes:
+      - ./fireflyiii/import:/import
+    networks:
+      - fireflyiii_net
+      - frontend
+    depends_on:
+      - fireflyiii
+
+volumes:
+  fireflyiii_data:
+    name: fireflyiii_data
+  fireflyiii_db:
+    name: fireflyiii_db
+
+networks:
+  fireflyiii_net:
+    driver: bridge
+  frontend:
+    name: frontend
+    external: true
