@@ -127,6 +127,15 @@
             icon: sh-pangolin
             server: homelab
             container: newt
+        - Firefly III:
+            href: http://finance.home.arpa
+            icon: sh-firefly-iii
+            server: homelab
+            container: fireflyiii
+            widget:
+              type: firefly
+              url: http://fireflyiii:8080
+              key: "{{HOMEPAGE_VAR_FIREFLY_III_ACCESS_TOKEN}}"
 
     - External:
         - visard.me:

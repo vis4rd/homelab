@@ -53,3 +53,6 @@
     - "Pangolin / Newt":
         - icon: sh-pangolin-light
           href: https://docs.pangolin.net/
+    - Firefly III:
+        - icon: sh-firefly-iii-light
+          href: https://docs.firefly-iii.org/?mtm_kwd=top-link
