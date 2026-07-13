@@ -80,6 +80,20 @@ services:
     restart: unless-stopped
     env_file:
       - ./newt/.env
+      # Required fields in './newt/.env':
+      # EXTERNAL_DOMAIN       = The domain used for SSL and external access.
+      # PANGOLIN_ENDPOINT     = Full URL to the Pangolin admin dashboard.
+      # NEWT_PROVISIONING_KEY = Site provisioning key created in Pangolin admin dashboard.
+    environment:
+      # Docs: https://docs.pangolin.net/manage/sites/configure-site
+      NEWT_NAME: Homelab Center
+      PROVISIONING_BLUEPRINT_FILE: /var/config/provisioning-blueprint.yaml
+      DISABLE_SSH: true
+      DISABLE_CLIENTS: true
+      # LOG_LEVEL: DEBUG
+    volumes:
+      - ./newt/config:/var/config
+      - newt_data:/root/.config/newt-client
     networks:
       - external_access_net
 
@@ -104,3 +118,5 @@ volumes:
     name: pihole_data
   pihole_config:
     name: pihole_config
+  newt_data:
+    name: newt_data

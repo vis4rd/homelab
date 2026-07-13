@@ -1,0 +1,24 @@
+sites:
+  homelab-center:
+    # BUG: For now it is completely ignored or does not work due to unrecognized site identifier
+    name: Homelab Center
+    docker-socket-enabled: false
+
+public-resources:
+  jellyfin:
+    name: Jellyfin
+    mode: http
+    full-domain: "tv.{{env.EXTERNAL_DOMAIN}}"
+    auth:
+      sso-enabled: true
+      sso-roles:
+        - Jellyfin Access Group
+    targets:
+      - site: Homelab Center
+        hostname: jellyfin
+        port: 8096
+        method: http
+        healthcheck:
+          hostname: jellyfin
+          port: 8096
+          path: /health
