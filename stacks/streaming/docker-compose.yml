@@ -31,13 +31,14 @@ services:
       streaming_net:
       external_access_net:
         ipv4_address: 172.24.0.8
+    runtime: nvidia
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: 1
-              capabilities: [gpu, video]
+              capabilities: [all]
 
   # SONARR (tv series manager)
   sonarr:
