@@ -53,8 +53,9 @@ services:
       - pihole_config:/etc/dnsmasq.d
     networks:
       - frontend
-    # cap_add:
-      # - SYS_NICE
+    cap_add:
+      - SYS_NICE
+      - SYS_TIME
 
   pihole_init:
     image: alpine

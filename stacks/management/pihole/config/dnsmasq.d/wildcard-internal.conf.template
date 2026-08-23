@@ -1,6 +1,5 @@
 # Pi-Hole should route all domain requests to the below address:
 # 192.168.2.2 - if the homelab server is connected via ethernet cable
-# 192.168.2.3 - if connection is via Wi-Fi
 #
 # Both settings are mutually exclusive.
 #
@@ -16,8 +15,6 @@
 
 address=/home.arpa/192.168.2.2
 address=/homelab.local/192.168.2.2
-# address=/home.arpa/192.168.2.3
-# address=/homelab.local/192.168.2.3
 
 address=/yourspotify.${EXTERNAL_DOMAIN}/192.168.2.2
 address=/finance.${EXTERNAL_DOMAIN}/192.168.2.2

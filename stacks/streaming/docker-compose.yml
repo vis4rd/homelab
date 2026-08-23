@@ -18,7 +18,7 @@ services:
       - ./jellyfin/config/root:/config/root
       - ./jellyfin/logs:/config/log
       - type: bind
-        source: /srv/storage/Streaming/Media
+        source: /mnt/nas/streaming/Media
         target: /media
     environment:
       PUID: 1000
@@ -51,7 +51,7 @@ services:
       - 8989:8989
     volumes:
       - sonarr_config:/config
-      - /srv/storage/Streaming:/data
+      - /mnt/nas/streaming:/data
     environment:
       PUID: 1000
       PGID: 1000
@@ -71,7 +71,7 @@ services:
       - 7878:7878
     volumes:
       - radarr_config:/config
-      - /srv/storage/Streaming:/data
+      - /mnt/nas/streaming:/data
     environment:
       PUID: 1000
       PGID: 1000
@@ -131,7 +131,7 @@ services:
       - 8081:8080
     volumes:
       - sabnzbd_config:/config
-      - /srv/storage/Streaming/Downloads:/data/downloads
+      - /mnt/nas/streaming/Downloads:/data/downloads
     environment:
       PUID: 1000
       PGID: 1000
