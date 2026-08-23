@@ -65,9 +65,9 @@ http://tv.home.arpa {
 	reverse_proxy jellyfin:8096
 }
 
-http://strava.homelab.local,
-http://strava.home.arpa {
-	reverse_proxy statistics_for_strava:8080
+http://sport.homelab.local,
+http://sport.home.arpa {
+	reverse_proxy dreeve:8080
 }
 
 http://sonarr.homelab.local,

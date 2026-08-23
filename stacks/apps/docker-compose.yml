@@ -36,62 +36,67 @@ services:
       - frontend
 
   # STATISTICS FOR STRAVA
-  statistics_for_strava:
-    image: robiningelbrecht/strava-statistics:latest
-    container_name: statistics_for_strava
+  dreeve:
+    image: robiningelbrecht/dreeve:latest
+    container_name: dreeve
     restart: unless-stopped
-    env_file: ./.env
+    env_file: ./dreeve/.env
     environment:
       TZ: Europe/Warsaw
       PUID: 1000
       PGID: 1000
-      # PROXY_HOST: strava.home.arpa # (maybe not necessary if using my own caddy reverse proxy)
-      # PROXY_PORT: 8082
+      IMPORT_MODE: stravaApi
+      ADMIN_USERNAME: admin
+      APP_URL: http://192.168.2.2:8082
 
-      # Required fields in './.env':
+      # Required fields in './dreeve/.env':
       # STRAVA_CLIENT_ID     = Strava API client ID
       # STRAVA_CLIENT_SECRET = Strava API client secret
       # STRAVA_REFRESH_TOKEN = Statistics for Strava refresh token
+      # APP_SECRET           = Secret key for the application
+      # ADMIN_PASSWORD_HASH  = Hashed password for the admin user
     ports:
       - 8082:8080
     volumes:
-      - ./statistics_for_strava/config:/var/www/config/app
-      - sfs_build:/var/www/build
-      - sfs_db:/var/www/storage/database
-      - sfs_files:/var/www/storage/files
+      - dreeve_build:/var/www/build
+      - dreeve_db:/var/www/storage/database
+      - dreeve_files:/var/www/storage/files
+      - ./dreeve/logs:/var/www/storage/files/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:2019/metrics"]
       start_period: 60s
     networks:
-      - statistics_for_strava_net
+      - dreeve_net
       - frontend
 
-  statistics_for_strava_daemon:
-    image: robiningelbrecht/strava-statistics:latest
-    container_name: statistics_for_strava_daemon
+  dreeve_daemon:
+    image: robiningelbrecht/dreeve:latest
+    container_name: dreeve_daemon
     restart: unless-stopped
-    env_file: ./.env
+    env_file: ./dreeve/.env
     environment:
       TZ: Europe/Warsaw
       PUID: 1000
       PGID: 1000
-      # PROXY_HOST: strava.home.arpa # (maybe not necessary if using my own caddy reverse proxy)
-      # PROXY_PORT: 8082
+      IMPORT_MODE: stravaApi
+      ADMIN_USERNAME: admin
 
-      # Required fields in './.env':
+      # Required fields in './dreeve/.env':
       # STRAVA_CLIENT_ID     = Strava API client ID
       # STRAVA_CLIENT_SECRET = Strava API client secret
       # STRAVA_REFRESH_TOKEN = Statistics for Strava refresh token
+      # APP_SECRET           = Secret key for the application
+      # ADMIN_PASSWORD_HASH  = Hashed password for the admin user
     volumes_from:
-      - statistics_for_strava
+      - dreeve
     depends_on:
-      - statistics_for_strava
+      - dreeve
     healthcheck:
       test: [ "CMD", "sh", "-c", "test -f /var/www/storage/database/strava.db && echo 'ok' || exit 1" ]
       start_period: 5s
     entrypoint: ['bin/console', 'app:daemon:run']
     networks:
-      - statistics_for_strava_net
+      - dreeve_net
 
   # YOUR SPOTIFY
   your_spotify:
@@ -137,17 +142,17 @@ networks:
   external_access_net:
     name: external_access_net
     external: true
-  statistics_for_strava_net:
-    name: statistics_for_strava_net
+  dreeve_net:
+    name: dreeve_net
   your_spotify_net:
     name: your_spotify_net
 
 volumes:
-  sfs_build:
-    name: sfs_build
-  sfs_db:
-    name: sfs_db
-  sfs_files:
-    name: sfs_files
+  dreeve_build:
+    name: dreeve_build
+  dreeve_db:
+    name: dreeve_db
+  dreeve_files:
+    name: dreeve_files
   your_spotify_db:
     name: your_spotify_db
