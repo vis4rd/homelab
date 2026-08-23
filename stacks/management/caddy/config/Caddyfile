@@ -92,11 +92,11 @@ http://prowlarr.home.arpa {
 	reverse_proxy prowlarr:9696
 }
 
-http://jellyseerr.homelab.local,
-http://jellyseerr.home.arpa,
+http://seerr.homelab.local,
+http://seerr.home.arpa,
 http://requests.homelab.local,
 http://requests.home.arpa {
-	reverse_proxy jellyseerr:5055
+	reverse_proxy seerr:5055
 }
 
 http://spotify.homelab.local,
