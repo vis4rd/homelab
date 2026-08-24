@@ -2,14 +2,6 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/bookmarks
 
-- Bookmarks:
-    - Proton Mail:
-        - icon: sh-proton-mail-light
-          href: https://mail.proton.me/
-    - Github:
-        - icon: sh-github-light
-          href: https://github.com/
-
 - Documentation:
     - Homepage:
         - icon: sh-homepage-light

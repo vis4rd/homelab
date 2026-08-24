@@ -2,6 +2,36 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
 
+- Bookmarks:
+    - Jellyfin:
+        name: Movies & Shows
+        description: "Private collection of movies and TV shows, available via Jellyfin."
+        href: http://tv.home.arpa
+        icon: sh-jellyfin
+        server: homelab
+        container: jellyfin
+    - File Browser:
+        name: File Explorer
+        description: "Web-based file explorer for managing storage on NAS."
+        href: http://files.home.arpa
+        icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/files.svg
+        server: homelab
+        container: filebrowser
+    - Your Spotify:
+        name: Spotify Statistics
+        description: "Statistics gathering and visualization for Spotify."
+        href: http://spotify.home.arpa
+        icon: sh-spotify
+        server: homelab
+        container: your_spotify
+    - Dreeve:
+        name: Sports Statistics
+        description: "Statistics gathering and visualization for Strava."
+        href: http://sport.home.arpa
+        icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/dreeve.svg
+        server: homelab
+        container: dreeve
+
 - Services:
     - Homelab:
         - Homepage:
@@ -33,7 +63,7 @@
               fields: ["queries", "blocked"]
         - File Browser:
             href: http://files.home.arpa
-            icon: sh-file-browser
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/files.svg
             server: homelab
             container: filebrowser
             widget:
@@ -63,7 +93,7 @@
               expandOneStreamToTwoRows: false
         - Dreeve:
             href: http://sport.home.arpa
-            icon: sh-dreeve
+            icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/dreeve.svg
             server: homelab
             container: dreeve
         - Your Spotify:

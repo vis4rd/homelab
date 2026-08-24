@@ -16,15 +16,18 @@ layout:
   # Daily tab
   Calendar:
     header: false
+    tab: Daily
 
   Bookmarks:
-    header: false
+    # header: false
+    tab: Daily
 
   # Services tab
   Services:
     style: row
     columns: 1
     header: false
+    tab: Services
 
     Homelab:
       style: row
@@ -36,3 +39,4 @@ layout:
   Documentation:
     style: row
     columns: 2
+    tab: Services

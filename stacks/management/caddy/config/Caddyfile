@@ -40,6 +40,11 @@ http://router.home.arpa {
 	reverse_proxy 192.168.2.1
 }
 
+http://nas.homelab.local,
+http://nas.home.arpa {
+	reverse_proxy 192.168.2.3
+}
+
 http://home.homelab.local,
 http://home.home.arpa {
 	reverse_proxy homepage:3000
