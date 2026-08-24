@@ -13,9 +13,6 @@ services:
     volumes:
       - jellyfin_cache:/cache
       - jellyfin_data:/config
-      - ./jellyfin/config/config:/config/config
-      - ./jellyfin/config/plugins:/config/plugins
-      - ./jellyfin/config/root:/config/root
       - ./jellyfin/logs:/config/log
       - type: bind
         source: /mnt/nas/streaming/Media

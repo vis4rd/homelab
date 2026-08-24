@@ -105,15 +105,15 @@
               type: prowlarr
               url: http://prowlarr:9696
               key: "{{HOMEPAGE_VAR_PROWLARR_API_KEY}}"
-        - Jellyseerr:
-            href: http://jellyseerr.home.arpa
-            icon: sh-jellyseerr
+        - Seerr:
+            href: http://seerr.home.arpa
+            icon: sh-seerr
             server: homelab
-            container: jellyseerr
+            container: seerr
             widget:
-              type: jellyseerr
-              url: http://jellyseerr:5055
-              key: "{{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}"
+              type: seerr
+              url: http://seerr:5055
+              key: "{{HOMEPAGE_VAR_SEERR_API_KEY}}"
         - Sabnzbd:
             href: http://sabnzbd.home.arpa
             icon: sh-sabnzbd
@@ -155,10 +155,12 @@
                 name: Google Calendar
                 url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
                 color: green
-              - type: ical
-                name: TV Series
-                url: http://sonarr:8989/feed/v3/calendar/Sonarr.ics?apikey=b9594a51b91b40849cb948c778bdabfc
+              - type: sonarr
+                service_group: Homelab
+                service_name: Sonarr
                 color: purple
+                params:
+                  unmonitored: true
           - type: calendar
             view: agenda
             maxEvents: 15
@@ -167,7 +169,9 @@
                 name: Google Calendar
                 url: "{{HOMEPAGE_VAR_GOOGLE_CALENDAR_ICAL_PRIVATE_URL}}"
                 color: green
-              - type: ical
-                name: TV Series
-                url: http://sonarr:8989/feed/v3/calendar/Sonarr.ics?apikey=b9594a51b91b40849cb948c778bdabfc
+              - type: sonarr
+                service_group: Homelab
+                service_name: Sonarr
                 color: purple
+                params:
+                  unmonitored: true
