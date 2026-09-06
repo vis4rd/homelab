@@ -9,7 +9,8 @@ services:
     ports:
       - 8080:80
     volumes:
-      - /mnt/nas:/srv # this should point to the storage location
+      - /mnt/nas/media:/srv/media
+      - /mnt/nas/streaming:/srv/streaming
       - filebrowser_data:/database
       - filebrowser_config:/config
       - ./filebrowser/customization:/config/branding # https://filebrowser.org/customization.html
