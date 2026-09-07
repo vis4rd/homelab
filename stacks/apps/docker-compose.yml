@@ -80,6 +80,7 @@ services:
       PGID: 1000
       IMPORT_MODE: stravaApi
       ADMIN_USERNAME: admin
+      APP_URL: http://192.168.2.2:8082
 
       # Required fields in './dreeve/.env':
       # STRAVA_CLIENT_ID     = Strava API client ID

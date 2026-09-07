@@ -66,9 +66,9 @@
             icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/files.svg
             server: homelab
             container: filebrowser
-            widget:
-              type: filebrowser
-              url: http://filebrowser:80
+            # widget: # incompatible with File Browser Quantum
+            #   type: filebrowser
+            #   url: http://filebrowser:80
         - Caddy:
             icon: sh-caddy
             server: homelab

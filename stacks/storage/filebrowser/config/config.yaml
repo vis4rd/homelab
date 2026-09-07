@@ -1,0 +1,28 @@
+server:
+  database:
+    path: "data/filebrowser.sqlite"
+  cacheDir: "data/tmp"
+  sources:
+    - path: "/srv/media"
+      name: Media
+      config:
+        defaultEnabled: true
+    - path: "/srv/streaming"
+      name: Streaming
+      config:
+        defaultEnabled: true
+  maxArchiveSize: 50 # maxiumum pre-archive size users are allowed to download at once.
+
+auth:
+  methods:
+    noauth: true # disables all authentication methods
+
+frontend:
+  name: "File Browser"
+  styling:
+    disableEventThemes: false
+    customCSS: "reduce-rounded-corners.css"
+  externalLinks:
+    - text: Docs
+      title: File Browser Documentation
+      url: https://filebrowserquantum.com/en/docs/configuration/configuration-overview/
