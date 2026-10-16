@@ -5,10 +5,10 @@
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
-        "markdown": false,
         "scminput": false,
         "dotenv": false,
         "properties": false,
+        "markdown": true
     },
     "[yaml]": {
         "editor.insertSpaces": true,

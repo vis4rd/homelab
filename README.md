@@ -15,8 +15,8 @@ Any encountered documentation in this repository is mainly for me as some config
 | `monitoring`    | Overview of the state and health of all services.         |
 | `storage`       | Storage and backup management.                            |
 | `streaming`     | Home media management and streaming services.             |
+| `finance`       | Personal finances management.                             |
 | `apps`          | Various standalone apps                                   |
-| `homeassistant` | `TO-DO` Smart home devices management.                    |
 
 ## Entrypoint
 

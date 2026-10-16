@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
     volumes:
       - duplicati_data:/data
-      - /mnt/backup:/backups
+      - /mnt/nas/media/backups/duplicati:/backups
       - /home:/sources/home
       - /var/lib/docker/volumes:/sources/docker_volumes
     environment:
