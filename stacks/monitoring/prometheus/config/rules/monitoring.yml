@@ -1,0 +1,20 @@
+groups:
+  - name: monitoring
+    rules:
+      - alert: PrometheusTargetDown
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Prometheus target is down
+          description: "{{ $labels.job }} target {{ $labels.instance }} is unavailable."
+
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox probe failed
+          description: "{{ $labels.instance }} failed its {{ $labels.job }} probe."

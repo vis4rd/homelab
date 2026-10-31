@@ -50,6 +50,29 @@
               # environment: local # optional: name or id; aggregates all when omitted
               username: "{{HOMEPAGE_VAR_DOCKHAND_USERNAME}}"
               password: "{{HOMEPAGE_VAR_DOCKHAND_PASSWORD}}"
+        - Glances:
+            href: http://glances.home.arpa
+            icon: sh-glances
+            server: homelab
+            widgets:
+              - type: glances
+                url: http://glances:61208
+                version: 4
+                metric: cpu
+              - type: glances
+                url: http://glances:61208
+                version: 4
+                metric: memory
+        - Grafana:
+            href: http://grafana.home.arpa
+            icon: sh-grafana
+            server: homelab
+            container: grafana
+        - Prometheus:
+            href: http://prometheus.home.arpa
+            icon: sh-prometheus
+            server: homelab
+            container: prometheus
         - Pi-Hole:
             href: http://dns.home.arpa
             icon: sh-pi-hole
