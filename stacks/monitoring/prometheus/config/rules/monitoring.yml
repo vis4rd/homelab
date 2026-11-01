@@ -1,4 +1,19 @@
 groups:
+  - name: monitoring-recordings
+    interval: 30s
+    rules:
+      - record: homelab:target_up
+        expr: min by (job) (up)
+
+      - record: homelab:probe_success
+        expr: min by (job) (probe_success)
+
+      - record: homelab:caddy_requests_per_second
+        expr: sum by (code) (rate(caddy_http_requests_total[5m]))
+
+      - record: homelab:caddy_request_duration_p95_seconds
+        expr: histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket[5m])))
+
   - name: monitoring
     rules:
       - alert: PrometheusTargetDown

@@ -67,7 +67,7 @@ services:
     restart: unless-stopped
     env_file:
       - ./grafana/.env
-      # Required fields in './newt/.env':
+      # Required fields in './grafana/.env':
       # GF_SECURITY_ADMIN_USER     = Username for the admin user
       # GF_SECURITY_ADMIN_PASSWORD = Password for the admin user
     environment:

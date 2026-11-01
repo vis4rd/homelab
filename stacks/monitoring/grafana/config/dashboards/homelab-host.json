@@ -119,6 +119,7 @@
         }
     ],
     "schemaVersion": 39,
+    "refresh": "5s",
     "tags": [
         "homelab",
         "monitoring"

@@ -1,0 +1,194 @@
+{
+    "annotations": {
+        "list": []
+    },
+    "editable": false,
+    "graphTooltip": 1,
+    "panels": [
+        {
+            "id": 1,
+            "type": "timeseries",
+            "title": "Requests per second by status",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 0
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum by (code) (rate(caddy_http_requests_total[5m]))",
+                    "legendFormat": "{{code}}",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "reqps"
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 2,
+            "type": "timeseries",
+            "title": "Request latency p95",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 0
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket[5m])))",
+                    "legendFormat": "p95",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s"
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 3,
+            "type": "timeseries",
+            "title": "Requests by handler",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 8
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum by (handler) (rate(caddy_http_requests_total[5m]))",
+                    "legendFormat": "{{handler}}",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "reqps"
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 4,
+            "type": "timeseries",
+            "title": "Response bytes per second",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 8
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum(rate(caddy_http_response_size_bytes_sum[5m]))",
+                    "legendFormat": "bytes/s",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "Bps"
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 5,
+            "type": "stat",
+            "title": "Last config reload successful",
+            "gridPos": {
+                "h": 5,
+                "w": 6,
+                "x": 0,
+                "y": 16
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "caddy_config_last_reload_successful",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "min": 0,
+                    "max": 1
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 6,
+            "type": "timeseries",
+            "title": "Upstream health",
+            "gridPos": {
+                "h": 8,
+                "w": 18,
+                "x": 6,
+                "y": 16
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "caddy_reverse_proxy_upstreams_healthy",
+                    "legendFormat": "{{upstream}}",
+                    "refId": "A"
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short"
+                },
+                "overrides": []
+            }
+        }
+    ],
+    "schemaVersion": 39,
+    "refresh": "5s",
+    "tags": [
+        "homelab",
+        "proxy"
+    ],
+    "templating": {
+        "list": []
+    },
+    "time": {
+        "from": "now-1h",
+        "to": "now"
+    },
+    "title": "Caddy Proxy",
+    "uid": "homelab-caddy",
+    "version": 1
+}
