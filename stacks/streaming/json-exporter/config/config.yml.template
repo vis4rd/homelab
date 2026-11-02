@@ -1,0 +1,140 @@
+modules:
+  jellyfin_movies:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+    metrics:
+      - name: streaming_jellyfin_movies
+        path: '{ .TotalRecordCount }'
+        help: Total number of movies in Jellyfin
+
+  jellyfin_series:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+    metrics:
+      - name: streaming_jellyfin_series
+        path: '{ .TotalRecordCount }'
+        help: Total number of series in Jellyfin
+
+  jellyfin_users:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+    metrics:
+      - name: streaming_jellyfin_user
+        type: object
+        path: '{ [*] }'
+        help: Jellyfin users currently returned by the API
+        labels:
+          user_id: '{ .Id }'
+          username: '{ .Name }'
+        values:
+          active: 1
+
+  jellyfin_sessions:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+    metrics:
+      - name: streaming_jellyfin_session
+        type: object
+        path: '{ [?(@.NowPlayingItem)] }'
+        help: Currently playing Jellyfin sessions
+        labels:
+          user_id: '{ .UserId }'
+          username: '{ .UserName }'
+          playback_mode: '{ .PlayState.PlayMethod }'
+        values:
+          active: 1
+
+  jellyfin_active_users_daily:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"WITH RECURSIVE dates(ActivityDate) AS (SELECT date(\"now\", \"-29 days\", \"localtime\") UNION ALL SELECT date(ActivityDate, \"+1 day\") FROM dates WHERE ActivityDate < date(\"now\", \"localtime\")), users AS (SELECT DISTINCT UserId FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-29 days\", \"localtime\")) SELECT dates.ActivityDate, users.UserId, CASE WHEN COUNT(PlaybackActivity.UserId) > 0 THEN 1 ELSE 0 END AS Active FROM dates CROSS JOIN users LEFT JOIN PlaybackActivity ON PlaybackActivity.UserId = users.UserId AND date(PlaybackActivity.DateCreated, \"localtime\") = dates.ActivityDate GROUP BY dates.ActivityDate, users.UserId ORDER BY dates.ActivityDate, users.UserId","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_active_user_daily
+        type: object
+        path: '{ .results[*] }'
+        help: Jellyfin users with playback activity per day
+        labels:
+          date: '{ [0] }'
+          username: '{ [1] }'
+        values:
+          active: '{ [2] }'
+
+  jellyfin_watch_seconds_day:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"SELECT date(DateCreated) AS ActivityDate, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY date(DateCreated), UserId ORDER BY ActivityDate, UserId","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_watch_seconds_day
+        type: object
+        path: '{ .results[*] }'
+        help: Jellyfin watchtime per user per day
+        labels:
+          date: '{ [0] }'
+          username: '{ [1] }'
+        values:
+          seconds: '{ [2] }'
+
+  jellyfin_watch_seconds_week:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"SELECT strftime(\"%Y-W%W\", DateCreated) AS ActivityWeek, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY strftime(\"%Y-W%W\", DateCreated), UserId ORDER BY ActivityWeek, UserId","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_watch_seconds_week
+        type: object
+        path: '{ .results[*] }'
+        help: Jellyfin watchtime per user per week
+        labels:
+          period: '{ [0] }'
+          username: '{ [1] }'
+        values:
+          seconds: '{ [2] }'
+
+  jellyfin_watch_seconds_month:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"SELECT strftime(\"%Y-%m\", DateCreated) AS ActivityMonth, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY strftime(\"%Y-%m\", DateCreated), UserId ORDER BY ActivityMonth, UserId","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_watch_seconds_month
+        type: object
+        path: '{ .results[*] }'
+        help: Jellyfin watchtime per user per month
+        labels:
+          period: '{ [0] }'
+          username: '{ [1] }'
+        values:
+          seconds: '{ [2] }'
+
+  jellyfin_average_session_seconds:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"SELECT UserId, AVG(PlayDuration) AS AverageSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY UserId ORDER BY UserId","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_average_session_seconds
+        type: object
+        path: '{ .results[*] }'
+        help: Average Jellyfin playback session duration per user over the last 30 days
+        labels:
+          username: '{ [0] }'
+        values:
+          seconds: '{ [1] }'
+
+  jellyfin_watch_seconds_current_month:
+    headers:
+      X-Emby-Token: __JELLYFIN_API_KEY__
+      Content-Type: application/json
+    body:
+      content: '{"CustomQueryString":"SELECT COALESCE(SUM(PlayDuration), 0) AS WatchSeconds FROM PlaybackActivity WHERE strftime(\"%Y-%m\", DateCreated) = strftime(\"%Y-%m\", \"now\", \"localtime\")","ReplaceUserId":true}'
+    metrics:
+      - name: streaming_jellyfin_watch_seconds_current_month
+        path: '{ .results[0][0] }'
+        help: Total Jellyfin watchtime in the current calendar month

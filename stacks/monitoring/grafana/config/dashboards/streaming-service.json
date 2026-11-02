@@ -3,32 +3,32 @@
         "list": []
     },
     "editable": false,
+    "graphTooltip": 1,
     "panels": [
         {
             "id": 1,
             "type": "stat",
-            "title": "Jellyfin target",
+            "title": "Movies",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 0,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 0,
-                "y": 0
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"jellyfin\"}",
-                    "refId": "A"
+                    "expr": "streaming_jellyfin_movies",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
                 "defaults": {
-                    "unit": "short",
-                    "min": 0,
-                    "max": 1
+                    "unit": "short"
                 },
                 "overrides": []
             }
@@ -36,28 +36,27 @@
         {
             "id": 2,
             "type": "stat",
-            "title": "Sonarr target",
+            "title": "Series",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 4,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 8,
-                "y": 0
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"sonarr\"}",
-                    "refId": "A"
+                    "expr": "streaming_jellyfin_series",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
                 "defaults": {
-                    "unit": "short",
-                    "min": 0,
-                    "max": 1
+                    "unit": "short"
                 },
                 "overrides": []
             }
@@ -65,28 +64,27 @@
         {
             "id": 3,
             "type": "stat",
-            "title": "Radarr target",
+            "title": "Users",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 8,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 16,
-                "y": 0
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"radarr\"}",
-                    "refId": "A"
+                    "expr": "streaming_jellyfin_users",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
                 "defaults": {
-                    "unit": "short",
-                    "min": 0,
-                    "max": 1
+                    "unit": "short"
                 },
                 "overrides": []
             }
@@ -94,28 +92,27 @@
         {
             "id": 4,
             "type": "stat",
-            "title": "Prowlarr target",
+            "title": "Watching now",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 12,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 0,
-                "y": 5
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"prowlarr\"}",
-                    "refId": "A"
+                    "expr": "streaming_jellyfin_watching_users",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
                 "defaults": {
-                    "unit": "short",
-                    "min": 0,
-                    "max": 1
+                    "unit": "short"
                 },
                 "overrides": []
             }
@@ -123,28 +120,27 @@
         {
             "id": 5,
             "type": "stat",
-            "title": "Seerr target",
+            "title": "Usenet downloaded last 30 days",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 16,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 8,
-                "y": 5
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"seerr\"}",
-                    "refId": "A"
+                    "expr": "increase(sabnzbd_downloaded_bytes[30d]) / 1000000000",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
                 "defaults": {
-                    "unit": "short",
-                    "min": 0,
-                    "max": 1
+                    "unit": "decgbytes"
                 },
                 "overrides": []
             }
@@ -152,21 +148,22 @@
         {
             "id": 6,
             "type": "stat",
-            "title": "SABnzbd target",
+            "title": "Exporters",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 20,
+                "y": 0
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 8,
-                "x": 16,
-                "y": 5
-            },
             "targets": [
                 {
-                    "expr": "up{job=\"sabnzbd\"}",
-                    "refId": "A"
+                    "expr": "min(up{job=~\"jellyfin-json-exporter.*|sabnzbd-exporter\"})",
+                    "refId": "A",
+                    "instant": true
                 }
             ],
             "fieldConfig": {
@@ -180,36 +177,386 @@
         },
         {
             "id": 7,
-            "type": "text",
-            "title": "Streaming metrics pending",
+            "type": "barchart",
+            "title": "Distinct users per day",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 5
+            },
             "datasource": {
                 "type": "prometheus",
                 "uid": "prometheus"
             },
-            "gridPos": {
-                "h": 5,
-                "w": 24,
-                "x": 0,
-                "y": 10
-            },
+            "targets": [
+                {
+                    "expr": "max by (date, username) (last_over_time(streaming_jellyfin_active_user_daily_active[30d]))",
+                    "format": "table",
+                    "instant": true,
+                    "refId": "A"
+                }
+            ],
+            "transformations": [
+                {
+                    "id": "labelsToFields",
+                    "options": {
+                        "mode": "columns",
+                        "valueLabel": "username"
+                    }
+                },
+                {
+                    "id": "groupingToMatrix",
+                    "options": {
+                        "columnField": "username",
+                        "rowField": "date",
+                        "valueField": "Value"
+                    }
+                }
+            ],
             "options": {
-                "mode": "markdown",
-                "content": "Streaming services are consolidated here. Add authenticated queue, indexer, playback, request, and download panels only after stable metric sources are verified. Jellystat remains separate analytics."
+                "xAxis": {
+                    "mode": "series"
+                },
+                "xTickLabelRotation": 90,
+                "orientation": "vertical",
+                "showValue": "never",
+                "stacking": "normal",
+                "groupWidth": 0.8,
+                "barWidth": 0.8,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "showLegend": true,
+                    "displayMode": "list",
+                    "placement": "bottom"
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "short",
+                    "decimals": 0,
+                    "min": 0,
+                    "color": {
+                        "mode": "palette-classic"
+                    }
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 8,
+            "type": "barchart",
+            "title": "Daily watchtime per user",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 5
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum by (date, username) (last_over_time(streaming_jellyfin_watch_seconds_day_seconds[30d]))",
+                    "format": "table",
+                    "instant": true,
+                    "refId": "A"
+                }
+            ],
+            "transformations": [
+                {
+                    "id": "labelsToFields",
+                    "options": {
+                        "mode": "columns",
+                        "valueLabel": "username"
+                    }
+                },
+                {
+                    "id": "groupingToMatrix",
+                    "options": {
+                        "columnField": "username",
+                        "rowField": "date",
+                        "valueField": "Value"
+                    }
+                }
+            ],
+            "options": {
+                "xAxis": {
+                    "mode": "series"
+                },
+                "xTickLabelRotation": 90,
+                "orientation": "vertical",
+                "showValue": "never",
+                "stacking": "normal",
+                "groupWidth": 0.8,
+                "barWidth": 0.8,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "showLegend": true,
+                    "displayMode": "list",
+                    "placement": "bottom"
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s",
+                    "color": {
+                        "mode": "palette-classic"
+                    }
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 9,
+            "type": "barchart",
+            "title": "Weekly watchtime per user",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 0,
+                "y": 13
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_week_seconds[30d]))",
+                    "format": "table",
+                    "instant": true,
+                    "refId": "A"
+                }
+            ],
+            "transformations": [
+                {
+                    "id": "labelsToFields",
+                    "options": {
+                        "mode": "columns",
+                        "valueLabel": "username"
+                    }
+                },
+                {
+                    "id": "groupingToMatrix",
+                    "options": {
+                        "columnField": "username",
+                        "rowField": "period",
+                        "valueField": "Value"
+                    }
+                }
+            ],
+            "options": {
+                "xAxis": {
+                    "mode": "series"
+                },
+                "xTickLabelRotation": 90,
+                "orientation": "vertical",
+                "showValue": "never",
+                "stacking": "normal",
+                "groupWidth": 0.8,
+                "barWidth": 0.8,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "showLegend": true,
+                    "displayMode": "list",
+                    "placement": "bottom"
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s",
+                    "color": {
+                        "mode": "palette-classic"
+                    }
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 10,
+            "type": "barchart",
+            "title": "Monthly watchtime per user",
+            "gridPos": {
+                "h": 8,
+                "w": 12,
+                "x": 12,
+                "y": 13
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_month_seconds[30d]))",
+                    "format": "table",
+                    "instant": true,
+                    "refId": "A"
+                }
+            ],
+            "transformations": [
+                {
+                    "id": "labelsToFields",
+                    "options": {
+                        "mode": "columns",
+                        "valueLabel": "username"
+                    }
+                },
+                {
+                    "id": "groupingToMatrix",
+                    "options": {
+                        "columnField": "username",
+                        "rowField": "period",
+                        "valueField": "Value"
+                    }
+                }
+            ],
+            "options": {
+                "xAxis": {
+                    "mode": "series"
+                },
+                "xTickLabelRotation": 90,
+                "orientation": "vertical",
+                "showValue": "never",
+                "stacking": "normal",
+                "groupWidth": 0.8,
+                "barWidth": 0.8,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "showLegend": true,
+                    "displayMode": "list",
+                    "placement": "bottom"
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s",
+                    "color": {
+                        "mode": "palette-classic"
+                    }
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 12,
+            "type": "stat",
+            "title": "Total watchtime this month",
+            "gridPos": {
+                "h": 8,
+                "w": 6,
+                "x": 12,
+                "y": 21
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "streaming_jellyfin_watch_seconds_current_month",
+                    "refId": "A",
+                    "instant": true
+                }
+            ],
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "s"
+                },
+                "overrides": []
+            }
+        },
+        {
+            "id": 13,
+            "type": "barchart",
+            "title": "Current active-session playback mode share per user",
+            "gridPos": {
+                "h": 8,
+                "w": 6,
+                "x": 18,
+                "y": 21
+            },
+            "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+            },
+            "targets": [
+                {
+                    "expr": "100 * count by (username, playback_mode) (streaming_jellyfin_session_active) / on (username) group_left count by (username) (streaming_jellyfin_session_active)",
+                    "format": "table",
+                    "instant": true,
+                    "refId": "A"
+                }
+            ],
+            "transformations": [
+                {
+                    "id": "labelsToFields",
+                    "options": {
+                        "mode": "columns",
+                        "valueLabel": "playback_mode"
+                    }
+                }
+            ],
+            "options": {
+                "xAxis": {
+                    "mode": "series"
+                },
+                "orientation": "vertical",
+                "showValue": "auto",
+                "stacking": "100%",
+                "groupWidth": 0.8,
+                "barWidth": 0.8,
+                "tooltip": {
+                    "mode": "single",
+                    "sort": "none"
+                },
+                "legend": {
+                    "showLegend": true,
+                    "displayMode": "list",
+                    "placement": "bottom"
+                }
+            },
+            "fieldConfig": {
+                "defaults": {
+                    "unit": "percent",
+                    "min": 0,
+                    "max": 100
+                },
+                "overrides": []
             }
         }
     ],
+    "refresh": "30s",
     "schemaVersion": 39,
-    "refresh": "5s",
     "tags": [
         "homelab",
         "service",
         "streaming"
     ],
+    "templating": {
+        "list": []
+    },
     "time": {
-        "from": "now-1h",
+        "from": "now-30d",
         "to": "now"
     },
+    "timezone": "browser",
     "title": "Streaming Service",
     "uid": "homelab-streaming-service",
-    "version": 1
+    "version": 2
 }

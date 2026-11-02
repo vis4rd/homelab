@@ -33,3 +33,15 @@ groups:
         annotations:
           summary: Blackbox probe failed
           description: "{{ $labels.instance }} failed its {{ $labels.job }} probe."
+
+  - name: streaming-recordings
+    interval: 30s
+    rules:
+      - record: streaming_jellyfin_users
+        expr: count(streaming_jellyfin_user_active)
+
+      - record: streaming_jellyfin_watching_users
+        expr: count(count by (user_id) (streaming_jellyfin_session_active))
+
+      - record: streaming_jellyfin_current_sessions
+        expr: count by (playback_mode) (streaming_jellyfin_session_active)
