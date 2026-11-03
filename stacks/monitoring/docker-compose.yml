@@ -37,6 +37,49 @@ services:
     networks:
       - frontend
 
+  # MARK: JELLYFIN JSON EXPORTER
+  json-exporter:
+    image: quay.io/prometheuscommunity/json-exporter:v0.8.0
+    container_name: json-exporter
+    restart: unless-stopped
+    env_file:
+      - ./json-exporter/.env
+      # Required field in './json-exporter/.env':
+      # JELLYFIN_API_KEY = Jellyfin API key used by the JSON exporter
+    volumes:
+      - ./json-exporter/config:/config:ro
+    entrypoint:
+      - /bin/sh
+      - /config/entrypoint.sh
+    networks:
+      - frontend
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:7979/metrics"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # MARK: SABNZBD EXPORTER
+  sabnzbd-exporter:
+    image: ghcr.io/onedr0p/exportarr:v2.3.0
+    container_name: sabnzbd-exporter
+    restart: unless-stopped
+    command: ["sabnzbd"]
+    env_file:
+      - ./sabnzbd-exporter/.env
+      # Required field in './sabnzbd-exporter/.env':
+      # API_KEY = SABnzbd API key used by Exportarr
+    environment:
+      PORT: 9711
+      URL: http://sabnzbd:8080
+    networks:
+      - frontend
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9711/metrics"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
   # MARK: PROMETHEUS (METRICS STORAGE)
   prometheus:
     image: prom/prometheus:latest
