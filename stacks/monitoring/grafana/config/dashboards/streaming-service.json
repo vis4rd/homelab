@@ -331,7 +331,7 @@
             },
             "targets": [
                 {
-                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_week_seconds[30d]))",
+                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_week_seconds[1y]))",
                     "format": "table",
                     "instant": true,
                     "refId": "A"
@@ -400,7 +400,7 @@
             },
             "targets": [
                 {
-                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_month_seconds[30d]))",
+                    "expr": "sum by (period, username) (last_over_time(streaming_jellyfin_watch_seconds_month_seconds[1y]))",
                     "format": "table",
                     "instant": true,
                     "refId": "A"

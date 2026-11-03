@@ -66,7 +66,7 @@ modules:
       X-Emby-Token: __JELLYFIN_API_KEY__
       Content-Type: application/json
     body:
-      content: '{"CustomQueryString":"SELECT date(DateCreated) AS ActivityDate, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY date(DateCreated), UserId ORDER BY ActivityDate, UserId","ReplaceUserId":true}'
+      content: '{"CustomQueryString":"WITH RECURSIVE dates(ActivityDate) AS (SELECT date(\"now\", \"-29 days\", \"localtime\") UNION ALL SELECT date(ActivityDate, \"+1 day\") FROM dates WHERE ActivityDate < date(\"now\", \"localtime\")), users AS (SELECT DISTINCT UserId FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\")) SELECT dates.ActivityDate, users.UserId, COALESCE(SUM(PlaybackActivity.PlayDuration), 0) AS WatchSeconds FROM dates CROSS JOIN users LEFT JOIN PlaybackActivity ON PlaybackActivity.UserId = users.UserId AND date(PlaybackActivity.DateCreated, \"localtime\") = dates.ActivityDate GROUP BY dates.ActivityDate, users.UserId ORDER BY dates.ActivityDate, users.UserId","ReplaceUserId":true}'
     metrics:
       - name: streaming_jellyfin_watch_seconds_day
         type: object
@@ -83,7 +83,7 @@ modules:
       X-Emby-Token: __JELLYFIN_API_KEY__
       Content-Type: application/json
     body:
-      content: '{"CustomQueryString":"SELECT strftime(\"%Y-W%W\", DateCreated) AS ActivityWeek, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY strftime(\"%Y-W%W\", DateCreated), UserId ORDER BY ActivityWeek, UserId","ReplaceUserId":true}'
+      content: '{"CustomQueryString":"WITH RECURSIVE weeks(ActivityDate) AS (SELECT date(\"now\", \"-364 days\", \"localtime\") UNION ALL SELECT date(ActivityDate, \"+7 days\") FROM weeks WHERE ActivityDate < date(\"now\", \"localtime\")), users AS (SELECT DISTINCT UserId FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-1 year\")) SELECT strftime(\"%Y-W%W\", weeks.ActivityDate) AS ActivityWeek, users.UserId, COALESCE(SUM(PlaybackActivity.PlayDuration), 0) AS WatchSeconds FROM weeks CROSS JOIN users LEFT JOIN PlaybackActivity ON PlaybackActivity.UserId = users.UserId AND strftime(\"%Y-W%W\", PlaybackActivity.DateCreated, \"localtime\") = strftime(\"%Y-W%W\", weeks.ActivityDate) GROUP BY ActivityWeek, users.UserId ORDER BY ActivityWeek, users.UserId","ReplaceUserId":true}'
     metrics:
       - name: streaming_jellyfin_watch_seconds_week
         type: object
@@ -100,7 +100,7 @@ modules:
       X-Emby-Token: __JELLYFIN_API_KEY__
       Content-Type: application/json
     body:
-      content: '{"CustomQueryString":"SELECT strftime(\"%Y-%m\", DateCreated) AS ActivityMonth, UserId, SUM(PlayDuration) AS WatchSeconds FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-30 days\") GROUP BY strftime(\"%Y-%m\", DateCreated), UserId ORDER BY ActivityMonth, UserId","ReplaceUserId":true}'
+      content: '{"CustomQueryString":"WITH RECURSIVE months(ActivityDate) AS (SELECT date(\"now\", \"start of month\", \"-11 months\", \"localtime\") UNION ALL SELECT date(ActivityDate, \"+1 month\") FROM months WHERE ActivityDate < date(\"now\", \"start of month\", \"localtime\")), users AS (SELECT DISTINCT UserId FROM PlaybackActivity WHERE DateCreated >= datetime(\"now\", \"-1 year\")) SELECT strftime(\"%Y-%m\", months.ActivityDate) AS ActivityMonth, users.UserId, COALESCE(SUM(PlaybackActivity.PlayDuration), 0) AS WatchSeconds FROM months CROSS JOIN users LEFT JOIN PlaybackActivity ON PlaybackActivity.UserId = users.UserId AND strftime(\"%Y-%m\", PlaybackActivity.DateCreated, \"localtime\") = strftime(\"%Y-%m\", months.ActivityDate) GROUP BY ActivityMonth, users.UserId ORDER BY ActivityMonth, users.UserId","ReplaceUserId":true}'
     metrics:
       - name: streaming_jellyfin_watch_seconds_month
         type: object
