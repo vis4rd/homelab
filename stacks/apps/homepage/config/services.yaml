@@ -189,6 +189,16 @@
               type: firefly
               url: http://fireflyiii:8080
               key: "{{HOMEPAGE_VAR_FIREFLY_III_ACCESS_TOKEN}}"
+        - Mealie:
+            href: http://cooking.home.arpa
+            icon: sh-mealie
+            server: homelab
+            container: mealie
+            widget:
+              type: mealie
+              url: http://mealie:9000
+              key: "{{HOMEPAGE_VAR_MEALIE_API_TOKEN}}"
+              version: 2
 
     - External:
         - visard.me:

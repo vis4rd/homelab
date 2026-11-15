@@ -1,6 +1,6 @@
 services:
 
-  # HOMEPAGE
+  # MARK: HOMEPAGE
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
@@ -26,6 +26,8 @@ services:
       # HOMEPAGE_VAR_DOCKHAND_USERNAME                = Dockhand username
       # HOMEPAGE_VAR_DOCKHAND_PASSWORD                = Dockhand password
       # HOMEPAGE_VAR_YOURSPOTIFY_KEY                  = YourSpotify widget API key
+      # HOMEPAGE_VAR_FIREFLY_III_ACCESS_TOKEN         = Firefly III widget access token
+      # HOMEPAGE_VAR_MEALIE_API_TOKEN                 = Mealie widget API token
     ports:
       - 3000:3000
     volumes:
@@ -35,7 +37,7 @@ services:
     networks:
       - frontend
 
-  # STATISTICS FOR STRAVA
+  # MARK: STATISTICS FOR STRAVA
   dreeve:
     image: robiningelbrecht/dreeve:latest
     container_name: dreeve
@@ -99,7 +101,7 @@ services:
     networks:
       - dreeve_net
 
-  # YOUR SPOTIFY
+  # MARK: YOUR SPOTIFY
   your_spotify:
     image: lscr.io/linuxserver/your_spotify:latest
     container_name: your_spotify
@@ -136,6 +138,34 @@ services:
     networks:
       your_spotify_net:
 
+  # MARK: MEALIE
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:latest
+    container_name: mealie
+    restart: unless-stopped
+    # ports:
+    #     - "9925:9000" #
+    deploy:
+      resources:
+        limits:
+          memory: 1000M
+    volumes:
+      - mealie_data:/app/data/
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Warsaw
+      API_DOCS: false
+      MAX_UPLOAD_SIZE_MB: 100
+      # Reverse proxy authentication via Pangolin OAuth2
+      REVERSE_PROXY_AUTH_ENABLED: true
+      REVERSE_PROXY_AUTH_HEADER: "Remote-Email"
+      REVERSE_PROXY_AUTH_SIGNUP_ENABLED: true
+      ALLOW_PASSWORD_LOGIN: true # needed for admin login, otherwise only OAuth2 login is possible
+    networks:
+      frontend:
+      external_access_net:
+
 networks:
   frontend:
     name: frontend
@@ -157,3 +187,5 @@ volumes:
     name: dreeve_files
   your_spotify_db:
     name: your_spotify_db
+  mealie_data:
+    name: mealie_data

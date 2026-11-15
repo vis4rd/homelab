@@ -177,6 +177,19 @@ finance.{$EXTERNAL_DOMAIN} {
 	import logging finance
 }
 
+http://cooking.homelab.local,
+http://cooking.home.arpa,
+http://recipes.homelab.local,
+http://recipes.home.arpa,
+http://przepisy.homelab.local,
+http://przepisy.home.arpa,
+http://gotowanie.homelab.local,
+http://gotowanie.home.arpa {
+	reverse_proxy mealie:9000
+
+	import logging mealie
+}
+
 
 # Return HTTP Status 404 for all undefined subdomains
 http://*.homelab.local,
